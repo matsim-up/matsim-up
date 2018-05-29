@@ -125,12 +125,12 @@
 	</dependencies>
 	
 	<distributionManagement>
-		<repository>
-			<id>matsim-up-bintray</id>
-			<url>https://dl.bintray.com/matsim-up/matsim-up;publish=1</url>
-		</repository>
+    	<repository>
+            <id>bintray-matsim-up-matsim-up</id>
+            <name>matsim-up-matsim-up</name>
+            <url>https://api.bintray.com/maven/matsim-up/matsim-up/;publish=1</url>
+        </repository>
 	</distributionManagement>
-
 
 	<build>
 		<plugins>
