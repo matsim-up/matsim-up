@@ -187,6 +187,28 @@
 
 	<profiles>
 		<profile>
+           <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <id>bintray-matsim-up-matsim-up</id>
+                    <name>bintray</name>
+                    <url>https://dl.bintray.com/matsim-up/matsim-up</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>bintray-matsim-up-matsim-up</id>
+                    <name>bintray-plugins</name>
+                    <url>https://dl.bintray.com/matsim-up/matsim-up</url>
+                </pluginRepository>
+            </pluginRepositories>
+            <id>bintray</id>
+
 			<id>release</id>
 			<build>
 				<defaultGoal>assembly:assembly</defaultGoal>
@@ -216,4 +238,8 @@
 			</build>
 		</profile>
 	</profiles>
+    <activeProfiles>
+        <activeProfile>bintray</activeProfile>
+    </activeProfiles>
+
 </project>
