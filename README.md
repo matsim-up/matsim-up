@@ -7,7 +7,7 @@ Some general classes, utilities and associated tests frequently used by the MATS
 
 ## Usage
 
-To use `matsim-up` as a dependency in an external maven project, update the external project's `pom.xml` file by adding the [JitPack](https://jitpack.io) repository
+To use `matsim-up` as a dependency in an external maven project, update the external project's `pom.xml` file by adding the [PackageCloud](https://packagecloud.io/matsim-up/matsim-up) repository
 
 ```
 <repositories>
