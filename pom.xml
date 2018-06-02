@@ -122,6 +122,14 @@
 			<artifactId>commons-cli</artifactId>
 			<version>1.2</version>
 		</dependency>
+		
+		<!-- Needed for handling SRTM files -->
+		<dependency>
+			<groupId>de.grundid.osmtools</groupId>
+			<artifactId>osm-tools-process</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		
 	</dependencies>
 	
 	<distributionManagement>
