@@ -1,6 +1,6 @@
 /* *********************************************************************** *
  * project: org.matsim.*
- * SpatialUtils.java
+ * TestSpatialUtils.java
  *                                                                         *
  * *********************************************************************** *
  *                                                                         *
@@ -18,57 +18,48 @@
  *                                                                         *
  * *********************************************************************** */
 
-/**
- * 
- */
 package org.matsim.up.utils;
 
+
+import org.junit.Assert;
+import org.junit.Test;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.core.gbl.MatsimRandom;
-import org.matsim.core.utils.geometry.CoordUtils;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 
-/**
- * Class with specific spatial utilities.
- * 
- * @author jwjoubert
- */
-public class SpatialUtils {
+public class SpatialUtilsTest {
 
-	public static Coord sampleRandomInteriorCoord(Geometry g) {
-		Point p = sampleRandomInteriorPoint(g);
-		Coord c = CoordUtils.createCoord(p.getX(), p.getY());
-		
-		return c;
+	@Test
+	public void testSampleRandomInteriorPoint() {
+		MatsimRandom.reset(12345);
+		Point p = SpatialUtils.sampleRandomInteriorPoint(buildSquare());
+		Assert.assertEquals("Wrong x-coordinate", 36.1803107, p.getX(), 1e-6);
+		Assert.assertEquals("Wrong y-coordinate", 93.2993485, p.getY(), 1e-6);
 	}
 	
-	public static Point sampleRandomInteriorPoint(Geometry g) {
-		Point p = null;
-		
-		Geometry envelope = g.getEnvelope();
-		double c1x = envelope.getCoordinates()[0].x;
-		double c2x = envelope.getCoordinates()[2].x;
-		double c1y = envelope.getCoordinates()[0].y;
-		double c2y = envelope.getCoordinates()[2].y;
-		double minX = Math.min(c1x, c2x);
-		double maxX = Math.max(c1x, c2x);
-		double minY = Math.min(c1y, c2y);
-		double maxY = Math.max(c1y, c2y);
-		
-		while(p == null){
-			double sampleX = minX + MatsimRandom.getRandom().nextDouble()*(maxX-minX);
-			double sampleY = minY + MatsimRandom.getRandom().nextDouble()*(maxY-minY);
-			Point pp = g.getFactory().createPoint(new Coordinate(sampleX, sampleY));
-			if(g.covers(pp)){
-				p = pp;
-			}
-		}
-		
+	
+	@Test
+	public void testSampleRandomInteriorCoord() {
+		MatsimRandom.reset(12345);
+		Coord c = SpatialUtils.sampleRandomInteriorCoord(buildSquare());
+		Assert.assertEquals("Wrong x-coordinate", 36.1803107, c.getX(), 1e-6);
+		Assert.assertEquals("Wrong y-coordinate", 93.2993485, c.getY(), 1e-6);
+	}
+	
+	
+	private Geometry buildSquare() {
+		Coordinate c1 = new Coordinate(0.0, 0.0);
+		Coordinate c2 = new Coordinate(100.0, 0.0);
+		Coordinate c3 = new Coordinate(100.0, 100.0);
+		Coordinate c4 = new Coordinate(0.0, 100.0);
+		Coordinate[] ca = {c1, c2, c3, c4, c1};
+		Polygon p = new GeometryFactory().createPolygon(ca);
 		return p;
 	}
-	
-	
+
 }

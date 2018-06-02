@@ -1,9 +1,10 @@
 /* *********************************************************************** *
- * project: org.matsim.*												   *
+ * project: org.matsim.*
+ * SouthAfricaPopulationGrowthTest.java
  *                                                                         *
  * *********************************************************************** *
  *                                                                         *
- * copyright       : (C) 2008 by the members listed in the COPYING,        *
+ * copyright       : (C) 2009 by the members listed in the COPYING,        *
  *                   LICENSE and WARRANTY file.                            *
  * email           : info at matsim dot org                                *
  *                                                                         *
@@ -16,44 +17,35 @@
  *   See also COPYING, LICENSE and WARRANTY file                           *
  *                                                                         *
  * *********************************************************************** */
-package org.matsim.example;
 
-import org.apache.log4j.Logger;
+package org.matsim.up.utils;
+
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.matsim.api.core.v01.Scenario;
-import org.matsim.core.config.Config;
-import org.matsim.core.config.ConfigUtils;
-import org.matsim.core.controler.Controler;
-import org.matsim.core.controler.OutputDirectoryHierarchy.OverwriteFileSetting;
-import org.matsim.core.scenario.ScenarioUtils;
+import org.matsim.up.utils.SouthAfricaPopulationGrowth.StudyArea;
 
-/**
- * @author nagel
- *
- */
-public class HelloWorldTest {
+public class SouthAfricaPopulationGrowthTest {
 
 	@Test
-	public final void testMain() {
-		try {
-			Config config = ConfigUtils.createConfig() ;
-			config.controler().setLastIteration(1);
-			config.controler().setOverwriteFileSetting(OverwriteFileSetting.deleteDirectoryIfExists);
+	public void testGetGrowthFactor() {
+		double f1 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2012);
+		Assert.assertEquals("Wrong factor", 1.00256, f1, 1e-5);
 
-			Scenario scenario = ScenarioUtils.loadScenario(config) ;
-
-			Controler controler = new Controler( scenario ) ;
-
-			controler.run();
-		} catch ( Exception ee ) {
-			Logger.getLogger(this.getClass()).fatal("there was an exception: \n" + ee ) ;
-			
-			// if one catches an exception, then one needs to explicitly fail the test:
-			Assert.fail();
-		}
-
-
+		double f2 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2013);
+		Assert.assertEquals("Wrong factor", 1.00455, f2, 1e-5);
+		
+		double f3 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2014);
+		Assert.assertEquals("Wrong factor", 1.00585, f3, 1e-5);
+		
+		double f4 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2015);
+		Assert.assertEquals("Wrong factor", 1.00666, f4, 1e-5);
+		
+		double f5 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2016);
+		Assert.assertEquals("Wrong factor", 1.00730, f5, 1e-5);
+		
+		double f6 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2017);
+		Assert.assertEquals("Wrong factor", 1.00768, f6, 1e-5);
 	}
 
 }
