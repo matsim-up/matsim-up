@@ -39,8 +39,8 @@
 		<!-- Network visualisation -->
 		<repository>
 			<id>jzy3d-releases</id>
-			<name>Jzy3d Snapshots</name>
-			<url>http://www.jzy3d.org/maven/releases</url>
+			<name>Jzy3d Releases</name>
+			<url>http://maven.jzy3d.org/releases</url>
 		</repository>
 	</repositories>
 
@@ -108,7 +108,7 @@
 		<dependency>
 			<groupId>org.jzy3d</groupId>
 			<artifactId>jzy3d-api</artifactId>
-			<version>0.9.1</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<!-- Needed for handling SRTM files -->

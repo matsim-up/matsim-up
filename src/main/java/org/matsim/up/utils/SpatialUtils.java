@@ -39,6 +39,9 @@ import com.vividsolutions.jts.geom.Point;
 public class SpatialUtils {
 
 	public static Coord sampleRandomInteriorCoord(Geometry g) {
+		if(g == null) {
+			throw new RuntimeException("Cannot find an interior point for a 'null' geometry.");
+		}
 		Point p = sampleRandomInteriorPoint(g);
 		Coord c = CoordUtils.createCoord(p.getX(), p.getY());
 		
@@ -46,6 +49,9 @@ public class SpatialUtils {
 	}
 	
 	public static Point sampleRandomInteriorPoint(Geometry g) {
+		if(g == null) {
+			throw new RuntimeException("Cannot find an interior point for a 'null' geometry.");
+		}
 		Point p = null;
 		
 		Geometry envelope = g.getEnvelope();
