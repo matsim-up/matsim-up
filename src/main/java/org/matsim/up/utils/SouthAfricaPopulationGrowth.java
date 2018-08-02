@@ -26,7 +26,7 @@ import java.util.TreeMap;
 
 /**
  * Class to account for estimated population growth in South Africa. The values used in this class is taken
- * from the latest release of the <a href=http://www.statssa.gov.za/?page_id=1861&PPN=P0302&SCH=7048>P0302 - 
+ * from the latest release of the <a href=http://www.statssa.gov.za/?page_id=1854&PPN=P0302>P0302 - 
  * Mid-year population estimates</a> report from Statistics South Africa. More specifically, we use the 
  * accompanying summary document <i>District Council projection by sex and age (2002-2017)</i>.<br><br>
  * 
@@ -66,7 +66,8 @@ public class SouthAfricaPopulationGrowth {
 	
 	/**
 	 * Manually adding the annual growth factor for each study area. This should be updated as and when new
-	 * mid-year population estimates are released by Statistics South Africa.
+	 * mid-year population estimates are released by Statistics South Africa. The values captured here are
+	 * year-on-year growth figures. 
 	 */
 	private static void populateGrowthMap() {
 		growthMap = new HashMap<>();
@@ -79,6 +80,7 @@ public class SouthAfricaPopulationGrowth {
 		buffaloCityMap.put(2015, 1.00080);
 		buffaloCityMap.put(2016, 1.00064);
 		buffaloCityMap.put(2017, 1.00037);
+		buffaloCityMap.put(2018, 1.00205); /* Provincial data, 20180802 */
 		growthMap.put(StudyArea.BuffaloCity, buffaloCityMap);
 		
 		/* City of Cape Town */
@@ -89,6 +91,7 @@ public class SouthAfricaPopulationGrowth {
 		capeTownMap.put(2015, 1.00813);
 		capeTownMap.put(2016, 1.00874);
 		capeTownMap.put(2017, 1.01118);
+		capeTownMap.put(2018, 1.02157); /* Provincial data, 20180802 */
 		growthMap.put(StudyArea.CapeTownFunctional, capeTownMap);
 		
 		/* eThekwini */
@@ -99,6 +102,7 @@ public class SouthAfricaPopulationGrowth {
 		eThekwiniMap.put(2015, 1.00813);
 		eThekwiniMap.put(2016, 1.00874);
 		eThekwiniMap.put(2017, 1.01118);
+		eThekwiniMap.put(2018, 1.01062); /* Provincial data, 20180802 */
 		growthMap.put(StudyArea.eThekwini, eThekwiniMap);
 		
 		/* Gauteng */
@@ -109,6 +113,7 @@ public class SouthAfricaPopulationGrowth {
 		gautengMap.put(2015, 1.02616);
 		gautengMap.put(2016, 1.02640);
 		gautengMap.put(2017, 1.02675);
+		gautengMap.put(2018, 1.02650); /* Provincial data, 20180802 */
 		growthMap.put(StudyArea.Gauteng, gautengMap);
 		
 		/* Mangaung */
@@ -119,6 +124,7 @@ public class SouthAfricaPopulationGrowth {
 		mangaungMap.put(2015, 1.00644);
 		mangaungMap.put(2016, 1.00679);
 		mangaungMap.put(2017, 1.00666);
+		mangaungMap.put(2018, 1.00631); /* Provincial data, 20180802 */
 		growthMap.put(StudyArea.Mangaung, mangaungMap);
 		
 		/* Mbombela */
@@ -129,6 +135,7 @@ public class SouthAfricaPopulationGrowth {
 		mbombelaMap.put(2015, 1.01042);
 		mbombelaMap.put(2016, 1.01093);
 		mbombelaMap.put(2017, 1.01198);
+		mbombelaMap.put(2018, 1.01710); /* Provincial data, 20180802 */
 		growthMap.put(StudyArea.Mbombela, mbombelaMap);
 		
 		/* Nelson Mandela Bay Metropolitan */
@@ -139,6 +146,7 @@ public class SouthAfricaPopulationGrowth {
 		nmbmMap.put(2015, 1.00998);
 		nmbmMap.put(2016, 1.01073);
 		nmbmMap.put(2017, 1.01009);
+		nmbmMap.put(2018, 1.00205); /* Provincial data, 20180802 */
 		growthMap.put(StudyArea.NelsonMandelaBay, nmbmMap);
 		
 		/* Polokwane */
@@ -149,6 +157,7 @@ public class SouthAfricaPopulationGrowth {
 		polokwaneMap.put(2015, 1.00661);
 		polokwaneMap.put(2016, 1.00665);
 		polokwaneMap.put(2017, 1.00734);
+		polokwaneMap.put(2018, 1.01001); /* Provincial data, 20180802 */
 		growthMap.put(StudyArea.Polokwane, polokwaneMap);
 		
 		/* Rustenburg */
@@ -159,10 +168,9 @@ public class SouthAfricaPopulationGrowth {
 		rustenburgMap.put(2015, 1.02416);
 		rustenburgMap.put(2016, 1.02453);
 		rustenburgMap.put(2017, 1.02446);
+		rustenburgMap.put(2018, 1.01744); /* Provincial data, 20180802 */
 		growthMap.put(StudyArea.Rustenburg, rustenburgMap);
-		
 	}
-	
 	
 	
 	public enum StudyArea{
