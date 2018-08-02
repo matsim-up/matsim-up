@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
+
 /**
  * Class to account for estimated population growth in South Africa. The values used in this class is taken
  * from the latest release of the <a href=http://www.statssa.gov.za/?page_id=1854&PPN=P0302>P0302 - 
@@ -37,6 +39,38 @@ import java.util.TreeMap;
  */
 public class SouthAfricaPopulationGrowth {
 	private static Map<StudyArea, Map<Integer, Double>> growthMap;
+	
+	/**
+	 * Quick run to report the cumulative (since 2011) growth for a given area. 
+	 * Two arguments must be provided, and in the following order:
+	 * <ol>
+	 * 		<li> the year (> 2011) for which the growth must be calculated; and
+	 * 		<li> {@link StudyArea} description, or "All" to report for all areas.
+	 * </ol>
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Header.printHeader(SouthAfricaPopulationGrowth.class, args);
+		int year = Integer.parseInt(args[0]);
+		if(args[1].equalsIgnoreCase("All")) {
+			for(StudyArea area : StudyArea.values()) {
+				String growth = String.format("Cumulative growth for the period 2011-%d for '%s': %.5f", 
+						year, 
+						area.toString(), 
+						SouthAfricaPopulationGrowth.getGrowthFactor(area, year));
+				Logger.getLogger(SouthAfricaPopulationGrowth.class).info(growth);
+			}
+		} else {
+			StudyArea area = StudyArea.valueOf(args[1]);
+			String growth = String.format("Cumulative growth for the period 2011-%d for '%s': %.5f", 
+					year, 
+					area.toString(), 
+					SouthAfricaPopulationGrowth.getGrowthFactor(area, year));
+			Logger.getLogger(SouthAfricaPopulationGrowth.class).info(growth);
+		}
+		
+		Header.printFooter();
+	}
 	
 	/**
 	 * Get the cumulative growth factor for a given study area, relative to 2011 (the last census). For 
