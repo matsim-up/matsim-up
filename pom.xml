@@ -1,177 +1,198 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.matsim.up</groupId>
-	<artifactId>matsim-up</artifactId>
-	<version>0.10.0-SNAPSHOT</version>
-	<name>matsim-up</name>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.matsim.up</groupId>
+    <artifactId>matsim-up</artifactId>
+    <version>0.10.0-SNAPSHOT</version>
+    <name>matsim-up</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <matsim.version>0.11.0-2018w49</matsim.version>
+    </properties>
 
 
-	<repositories>
-		<!-- Repository for MATSim releases (MATSim is not on Maven central) -->
-		<repository>
-			<id>matsim</id>
-			<url>https://dl.bintray.com/matsim/matsim</url>
-		</repository>
-		<!-- Repository for MATSim snapshots (in case someone wants to switch to 
-			snapshot versions) -->
-		<repository>
-			<id>ojo-snapshots</id>
-			<url>http://oss.jfrog.org/libs-snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
+    <repositories>
+        <!-- Repository for MATSim releases (MATSim is not on Maven central) -->
+        <repository>
+            <id>matsim</id>
+            <url>https://dl.bintray.com/matsim/matsim</url>
+        </repository>
+        <!-- Repository for MATSim snapshots (in case someone wants to switch to
+            snapshot versions) -->
+        <repository>
+            <id>ojo-snapshots</id>
+            <url>http://oss.jfrog.org/libs-snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <!-- Geotools is not on Maven central -->
-			<id>osgeo</id>
-			<name>Geotools repository</name>
-			<url>http://download.osgeo.org/webdav/geotools</url>
-		</repository>
-		<!-- Network visualisation -->
-		<repository>
-			<id>jzy3d-releases</id>
-			<name>Jzy3d Releases</name>
-			<url>http://maven.jzy3d.org/releases</url>
-		</repository>
-	</repositories>
+            <id>osgeo</id>
+            <name>Geotools repository</name>
+            <url>http://download.osgeo.org/webdav/geotools</url>
+        </repository>
+        <!-- Network visualisation -->
+        <repository>
+            <id>jzy3d-releases</id>
+            <name>Jzy3d Releases</name>
+            <url>http://maven.jzy3d.org/releases</url>
+        </repository>
+    </repositories>
 
 
-	<dependencies>
-		<!-- This is the matsim "core": -->
-		<dependency>
-			<groupId>org.matsim</groupId>
-			<artifactId>matsim</artifactId>
-			<version>0.10.0</version>
-		</dependency>
+    <dependencies>
+        <!-- This is the matsim "core": -->
+        <dependency>
+            <groupId>org.matsim</groupId>
+            <artifactId>matsim</artifactId>
+            <version>${matsim.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.matsim</groupId>
-			<artifactId>matsim</artifactId>
-			<type>test-jar</type>
-			<version>0.10.0</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.matsim</groupId>
+            <artifactId>matsim</artifactId>
+            <type>test-jar</type>
+            <version>${matsim.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- Include some MATSim extensions -->
+        <!--MATSim examples. Not transitive -->
+        <dependency>
+            <groupId>org.matsim</groupId>
+            <artifactId>matsim-examples</artifactId>
+            <version>0.11.0-SNAPSHOT</version>
+            <!--(not in weekly release!)-->
+        </dependency>
 
-		<!-- Include the JUnit testing library -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
+        <!-- Include some MATSim extensions -->
 
-		<!-- Jung for complex networks and graphs in general -->
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-api</artifactId>
-			<version>2.1.1</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-graph-impl</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-io</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-algorithms</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-visualization</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>colt</groupId>
-			<artifactId>colt</artifactId>
-			<version>1.2.0</version>
-		</dependency>
+        <!-- Include the JUnit testing library -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- Needed for visualising the GeneralGrid -->
-		<dependency>
-			<groupId>org.jzy3d</groupId>
-			<artifactId>jzy3d-api</artifactId>
-			<version>1.0.0</version>
-		</dependency>
+        <!-- Jung for complex networks and graphs in general -->
+        <dependency>
+            <groupId>net.sf.jung</groupId>
+            <artifactId>jung-api</artifactId>
+            <version>2.1.1</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jung</groupId>
+            <artifactId>jung-graph-impl</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jung</groupId>
+            <artifactId>jung-io</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jung</groupId>
+            <artifactId>jung-algorithms</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jung</groupId>
+            <artifactId>jung-visualization</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>colt</groupId>
+            <artifactId>colt</artifactId>
+            <version>1.2.0</version>
+        </dependency>
 
-		<!-- Needed for handling SRTM files -->
-		<dependency>
-			<groupId>de.grundid.osmtools</groupId>
-			<artifactId>osm-tools-process</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-		
-	</dependencies>
-	
-	<distributionManagement>
-  		<repository>
-    		<id>packagecloud-matsim-up</id>
-    		<url>packagecloud+https://packagecloud.io/matsim-up/matsim-up</url>
-  		</repository>
-  		<snapshotRepository>
-    		<id>packagecloud-matsim-up</id>
-    		<url>packagecloud+https://packagecloud.io/matsim-up/matsim-up</url>
-  		</snapshotRepository>
-	</distributionManagement>
-	
-	<build>
-	  	<extensions>
-    		<extension>
-      			<groupId>io.packagecloud.maven.wagon</groupId>
-      			<artifactId>maven-packagecloud-wagon</artifactId>
-      			<version>0.0.6</version>
-    		</extension>
-  		</extensions>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19.1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.19.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-	
-	<profiles>
+        <!-- Needed for visualising the GeneralGrid -->
+        <dependency>
+            <groupId>org.jzy3d</groupId>
+            <artifactId>jzy3d-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- Needed for handling SRTM files -->
+        <dependency>
+            <groupId>de.grundid.osmtools</groupId>
+            <artifactId>osm-tools-process</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <!-- Needed for Graphhopper map matching -->
+        <dependency>
+            <groupId>com.graphhopper</groupId>
+            <artifactId>graphhopper-map-matching-core</artifactId>
+            <version>0.11.0-4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.graphhopper</groupId>
+            <artifactId>graphhopper-core</artifactId>
+            <version>0.12.0-pre1</version>
+        </dependency>
+    </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>packagecloud-matsim-up</id>
+            <url>packagecloud+https://packagecloud.io/matsim-up/matsim-up</url>
+        </repository>
+        <snapshotRepository>
+            <id>packagecloud-matsim-up</id>
+            <url>packagecloud+https://packagecloud.io/matsim-up/matsim-up</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>io.packagecloud.maven.wagon</groupId>
+                <artifactId>maven-packagecloud-wagon</artifactId>
+                <version>0.0.6</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.19.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
         <profile>
             <id>release</id>
             <build>

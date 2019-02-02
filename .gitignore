@@ -3,3 +3,8 @@
 /.classpath
 /output
 /.settings
+.DS_Store
+.idea
+/snapshots
+/data
+/src/main/java/org/matsim/up/tmp
