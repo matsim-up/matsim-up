@@ -112,5 +112,12 @@ public class SouthAfricaInflationCorrector {
 		return value*factor;
 	}
 	
+	public static double getPurchasePowerParrity() {
+		double result = 0.0;
+		
+		
+		return result;
+	}
+	
 }
 
