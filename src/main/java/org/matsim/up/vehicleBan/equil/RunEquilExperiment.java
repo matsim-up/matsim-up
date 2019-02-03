@@ -23,7 +23,6 @@ import org.matsim.api.core.v01.Scenario;
 import org.matsim.core.controler.AbstractModule;
 import org.matsim.core.controler.Controler;
 import org.matsim.examples.ExamplesUtils;
-import org.matsim.up.utils.FileUtils;
 import org.matsim.up.utils.Header;
 import org.matsim.up.vehicleBan.VehicleBanChecker;
 import org.matsim.up.vehicleBan.VehicleBanModule;
@@ -33,25 +32,22 @@ import org.matsim.vehicles.VehicleCapacityImpl;
 import org.matsim.vehicles.VehicleType;
 import org.matsim.vehicles.VehicleTypeImpl;
 
-import java.io.File;
-
 
 /**
- * Class to run the equil network with a modal ban imposed.
+ * Class to run the 'equil' network with a modal ban imposed on the middle three
+ * links.
  *
  * @author jwjoubert
  */
 class RunEquilExperiment {
-
-    private static final String ITERS = "ITERS/";
 
     /**
      * @param args The following arguments are required, and in the following order:
      *             <ol>
      *             <li> probability of being caught, in the range [0.0, 1.0];
      *             <li> fine when caught (in monetary units);
-     *             <li> boolean indicating if an {@link org.matsim.api.core.v01.events.PersonStuckEvent}
-     *                  should be thrown along with fine;
+     *             <li> boolean indicating if a {@link org.matsim.api.core.v01.events.PersonStuckEvent}
+     *             should be thrown along with fine;
      *             <li> (optional) path to network file; and
      *             <li> (optional) path to output folder.
      *             </ol>
@@ -86,7 +82,7 @@ class RunEquilExperiment {
 
         Scenario sc = EquilBanScenario.Builder.newInstance()
                 .setEquilPath(equilPath)
-                .setNumberOfIterations(200)
+                .setNumberOfIterations(10)
                 .setNumberOfPersons(10000)
                 .setProbabilityBeingCaught(probabilityBeingCaught)
                 .setFineWhenCaught(fineWhenCaught)
@@ -97,15 +93,16 @@ class RunEquilExperiment {
                 .build();
 
         VehicleBanChecker checker = new EquilVehicleBanChecker();
-        VehicleBanModule module = VehicleBanUtils.createModule();
-        module.setFineOnSpot(false);
+        VehicleBanModule module = VehicleBanUtils.createModule(probabilityBeingCaught, fineWhenCaught, stuck);
         module.setVehicleBanChecker(checker);
-        module.setVehicleBanParameters(probabilityBeingCaught, fineWhenCaught, stuck);
 
         Controler controler = new Controler(sc);
         controler.addOverridingModule(module);
-        /* All experiments must have the following set up so that we can write
-         * the route choices to file. */
+
+        /* The following is just so that more output is generated, and you can
+         * track how the agents move away from the banned links. These are
+         * completely optional, and was just used in Working Paper 086 that was
+         * submitted for ABMTRANS 2019. */
         controler.addOverridingModule(new AbstractModule() {
             @Override
             public void install() {
@@ -116,7 +113,6 @@ class RunEquilExperiment {
         });
 
         controler.run();
-        FileUtils.delete(new File(controler.getConfig().controler().getOutputDirectory() + ITERS));
     }
 
 

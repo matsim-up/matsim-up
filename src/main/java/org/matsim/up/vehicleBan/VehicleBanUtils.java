@@ -22,7 +22,7 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.core.config.ConfigGroup;
-import org.matsim.core.controler.Controler;
+import org.matsim.core.config.ConfigUtils;
 import org.matsim.vehicles.Vehicle;
 
 /**
@@ -36,27 +36,6 @@ public class VehicleBanUtils {
     final static String ATTRIBUTE_BANNED_ROUTE_FINED = "bannedRouteFined";
 
 
-    public static VehicleBanType createVehicleBanType(VehicleBanType.Type type, double probabilityGettingCaught, double fineWhenCaught) {
-        return new VehicleBanType(type, probabilityGettingCaught, fineWhenCaught);
-    }
-
-    /*FIXME Should not use the Controler anymore.*/
-    @Deprecated
-    public static Controler createVehicleBanControler(Scenario sc, final VehicleBanType type, final VehicleBanChecker checker) {
-        VehicleBanType.Type theType = type.getType();
-        VehicleBanController vbc = new VehicleBanController(sc, type.getFineWhenCaught(), type.getProbabilityGettingCaught(), theType.equals(VehicleBanType.Type.FINE_AND_STUCK) ? true : false, checker);
-        return vbc.getController();
-    }
-
-    public static double getFineFromConfig(Scenario sc) {
-        double fine = 0.0;
-        ConfigGroup group = sc.getConfig().getModules().get(VehicleBanConfigGroup.NAME);
-        if (group == null) {
-            throw new IllegalArgumentException("There is no ConfigGroup 'vehicleBan' in the given scenario.");
-        }
-        return Double.parseDouble(group.getParams().get(VehicleBanConfigGroup.FINE));
-    }
-
     public static VehicleBanModule createModule() {
         return new VehicleBanModule();
     }
@@ -66,6 +45,14 @@ public class VehicleBanUtils {
         vehicleBanModule.setVehicleBanParameters(probability, fine, stuck);
         return vehicleBanModule;
     }
+
+    public static VehicleBanConfigGroup getConfigGroup(Scenario sc){
+        if(!sc.getConfig().getModules().containsKey( VehicleBanConfigGroup.NAME )){
+            throw new IllegalArgumentException("Cannot find 'vehicleBan' ConfigGroup.");
+        }
+        return ConfigUtils.addOrGetModule(sc.getConfig(), VehicleBanConfigGroup.NAME, VehicleBanConfigGroup.class);
+    }
+
 
     public static VehicleBanChecker createVehicleBanCheckerThatAllowsAllLinks() {
         return new VehicleBanChecker() {

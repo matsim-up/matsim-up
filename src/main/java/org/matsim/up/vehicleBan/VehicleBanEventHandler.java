@@ -36,75 +36,73 @@ import org.matsim.vehicles.Vehicle;
  * Flags a person's selected plan when it's vehicle uses a banned link during
  * a banned period. Once flagged, there is a chance that the person is caught
  * and fined.
- * 
+ *
  * @author jwjoubert
  */
-class VehicleBanEventHandler implements LinkEnterEventHandler{
+class VehicleBanEventHandler implements LinkEnterEventHandler {
 
-	private final VehicleBanChecker checker;
-	private final VehicleBanType type;
-	private boolean fineOnTheSpot;
+    private final VehicleBanChecker checker;
 
-	@Inject Scenario sc;
-	@Inject EventsManager eventManager;
+    @Inject
+    Scenario sc;
+    @Inject
+    EventsManager eventManager;
 
-	VehicleBanEventHandler(VehicleBanChecker checker, VehicleBanType type, boolean fineOnTheSpot) {
-		this.checker = checker;
-		this.type = type;
-		this.fineOnTheSpot = fineOnTheSpot;
-	}
+    VehicleBanEventHandler(VehicleBanChecker checker) {
+        this.checker = checker;
+    }
 
 
-	@Override
-	public void handleEvent(LinkEnterEvent event) {
-		Vehicle vehicle = sc.getVehicles().getVehicles().get( event.getVehicleId() );
-		Id<Link> linkId = event.getLinkId();
-		double time = event.getTime();
-		
-		if(checker.isBanned(vehicle, linkId, time)) {
-			/* Updated the flag for using a banned link. The following only 
-			 * works if the vehicle and person has the same Id. */ 
-			Person person = sc.getPopulation().getPersons().get(Id.createPersonId(vehicle.getId().toString()));
-			Plan plan = person.getSelectedPlan();
-			plan.getAttributes().putAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_TRAVELLED, true);
+    @Override
+    public void handleEvent(LinkEnterEvent event) {
+        Vehicle vehicle = sc.getVehicles().getVehicles().get(event.getVehicleId());
+        Id<Link> linkId = event.getLinkId();
+        double time = event.getTime();
 
-			handleBannedLink(person, linkId, time);
-		}
-	}
+        if (checker.isBanned(vehicle, linkId, time)) {
+            /* Updated the flag for using a banned link. The following only
+             * works if the vehicle and person has the same Id. */
+            Person person = sc.getPopulation().getPersons().get(Id.createPersonId(vehicle.getId().toString()));
+            Plan plan = person.getSelectedPlan();
+            plan.getAttributes().putAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_TRAVELLED, true);
+
+            handleBannedLink(person, linkId, time);
+        }
+    }
 
 
-	private void handleBannedLink(Person person, Id<Link> linkId, double time) {
-		Object o = person.getSelectedPlan().getAttributes().getAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_FINED);
+    private void handleBannedLink(Person person, Id<Link> linkId, double time) {
+        Object o = person.getSelectedPlan().getAttributes().getAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_FINED);
 
-		boolean caught = false;
-		double rnd = MatsimRandom.getRandom().nextDouble();
-		if(rnd < type.getProbabilityGettingCaught()) {
-			caught = true;
-		}
+        boolean caught = false;
+        double rnd = MatsimRandom.getRandom().nextDouble();
+        if (rnd < VehicleBanUtils.getConfigGroup(sc).getProbability()) {
+            caught = true;
+        }
 
-		boolean finedInThePast = false;
-		if(o != null) {
-			finedInThePast = Boolean.parseBoolean(o.toString());
-		}
+        boolean finedInThePast = false;
+        if (o != null) {
+            finedInThePast = Boolean.parseBoolean(o.toString());
+        }
 
-		if (!finedInThePast) {
-			if(caught) {
-				person.getSelectedPlan().getAttributes().putAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_FINED, true);
+        if (!finedInThePast) {
+            if (caught) {
+                person.getSelectedPlan().getAttributes().putAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_FINED, true);
 
-				/* Handle fine on the spot */
-				if(fineOnTheSpot) {
-					eventManager.processEvent(new PersonMoneyEvent(time, person.getId(), -type.getFineWhenCaught()));
+                /* Handle fine on the spot */
+                if (VehicleBanUtils.getConfigGroup(sc).isSpotFined()) {
+                    eventManager.processEvent(new PersonMoneyEvent(time, person.getId(), -VehicleBanUtils.getConfigGroup(sc).getFine()));
 
-					/* Instead of the link speed calculator, one can just throw a
-					 * stuck event here, and let the config deal with the delay. */
-					if(this.type.getType().equals(VehicleBanType.Type.FINE_AND_STUCK)) {
-						eventManager.processEvent(new PersonStuckEvent(time, person.getId(), linkId, null));
-					}
-				}
-			} else {
-				person.getSelectedPlan().getAttributes().putAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_FINED, false);
-			}
-		}  /* else do nothing, already handled. */
-	}
+                    /* Instead of the link speed calculator, one can just throw a
+                     * stuck event here, and let the config deal with the delay. */
+                    if (VehicleBanUtils.getConfigGroup(sc).isStuck()) {
+                        eventManager.processEvent(new PersonStuckEvent(time, person.getId(), linkId, null));
+                    }
+                }
+            } else {
+                person.getSelectedPlan().getAttributes().putAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_FINED, false);
+            }
+        }  /* else do nothing, already handled. */
+    }
 
 }

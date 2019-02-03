@@ -24,6 +24,10 @@ import org.matsim.core.controler.OutputDirectoryHierarchy;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.up.utils.Header;
 
+/**
+ * Example of how to implement and execute the vehicle ban module. For a more
+ * complete example, with a population, see the 'equil' folder.
+ */
 public class RunVehicleBan {
 
     public static void main(String[] args){
@@ -45,8 +49,5 @@ public class RunVehicleBan {
 
         Header.printFooter();
     }
-
-
-
 
 }

@@ -18,12 +18,8 @@
 
 package org.matsim.up.vehicleBan;
 
-import com.google.inject.Inject;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.population.Person;
-import org.matsim.core.config.Config;
-import org.matsim.core.config.ConfigGroup;
-import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.scoring.SumScoringFunction.BasicScoring;
 
 /**
@@ -44,14 +40,8 @@ final class VehicleBanScoringFunction implements BasicScoring {
 
     @Override
     public double getScore() {
+        double fineWhenCaught = VehicleBanUtils.getConfigGroup(sc).getFine();
 
-        ConfigGroup configGroup = sc.getConfig().getModules().get(VehicleBanConfigGroup.NAME);
-        if (configGroup == null) {
-            throw new RuntimeException("Cannot find the 'VehicleBanConfigGroup' for scoring parameters");
-        }
-        double fineWhenCaught = Double.parseDouble(configGroup.getParams().get(VehicleBanConfigGroup.FINE));
-
-//        double fineWhenCaught = ConfigUtils.addOrGetModule(config, VehicleBanConfigGroup.NAME, VehicleBanConfigGroup.class).getFine();
         Object o = person.getSelectedPlan().getAttributes().getAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_FINED);
         if (o != null) {
             boolean fined = (boolean) o;

@@ -97,23 +97,21 @@ public final class VehicleBanModule extends AbstractModule {
         if (this.checker == null) {
             throw new RuntimeException("Must provide a VehicleBanChecker instance.");
         }
-        VehicleBanType type = new VehicleBanType(this.stuck ? VehicleBanType.Type.FINE_AND_STUCK : VehicleBanType.Type.FINE_ONLY, this.probability, this.fine);
-        addEventHandlerBinding().toInstance(new VehicleBanEventHandler(checker, type, this.spotFined));
+        addEventHandlerBinding().toInstance(new VehicleBanEventHandler(checker));
 
         bindScoringFunctionFactory().toInstance(new VehicleBanScoringFunctionFactory());
     }
 
+
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("VehicleBanModule: ");
-        sb.append("Fine=");
-        sb.append(this.fine);
-        sb.append("; Probability=");
-        sb.append(this.probability);
-        sb.append("; with AgentStuckEvent=");
-        sb.append(this.stuck);
-        sb.append("; spotFined=");
-        sb.append(this.spotFined);
-        return sb.toString();
+        return "VehicleBanModule: " +
+                "Fine=" +
+                this.fine +
+                "; Probability=" +
+                this.probability +
+                "; with AgentStuckEvent=" +
+                this.stuck +
+                "; spotFined=" +
+                this.spotFined;
     }
 }
