@@ -42,7 +42,6 @@ import org.matsim.core.replanning.strategies.DefaultPlanStrategiesModule;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.misc.Time;
 import org.matsim.examples.ExamplesUtils;
-import org.matsim.up.vehicleBan.VehicleBanType;
 import org.matsim.vehicles.*;
 
 import java.io.File;
@@ -76,7 +75,9 @@ class EquilBanScenario {
         private VehicleType experimentVehicleType = new VehicleTypeImpl(Id.create(VEHICLE_TYPE_EXPERIMENT, VehicleType.class));
         private long seed = 1234L;
         private String dumpLocation = null;
-        private VehicleBanType experiment = null;
+        private double probability = 0.0;
+        private double fine = 0.0;
+        private boolean stuck = false;
 
         private Builder() {
         }
@@ -92,8 +93,18 @@ class EquilBanScenario {
             return this;
         }
 
-        Builder setExperiment(VehicleBanType experiment) {
-            this.experiment = experiment;
+        Builder setProbabilityBeingCaught(double probability){
+            this.probability = probability;
+            return this;
+        }
+
+        Builder setFineWhenCaught(double fine){
+            this.fine = fine;
+            return this;
+        }
+
+        Builder setStuck(boolean stuck){
+            this.stuck = stuck;
             return this;
         }
 
@@ -211,9 +222,9 @@ class EquilBanScenario {
 
             config.controler().setOutputDirectory(String.format("%s/output_%s_%.2f_%04.0f/",
                     dumpLocation,
-                    experiment.getType().getShortName(),
-                    experiment.getProbabilityGettingCaught(),
-                    experiment.getFineWhenCaught()));
+                    this.stuck ? "stuck" : "fine",
+                    this.probability,
+                    this.fine));
             config.controler().setOverwriteFileSetting(OverwriteFileSetting.deleteDirectoryIfExists);
             config.qsim().setEndTime(Time.parseTime("24:00:00"));
 
@@ -236,7 +247,7 @@ class EquilBanScenario {
             config.strategy().addStrategySettings(changeExpBeta);
 
             StrategySettings timing = new StrategySettings();
-            timing.setStrategyName(DefaultPlanStrategiesModule.DefaultStrategy.TimeAllocationMutator);
+            timing.setStrategyName(DefaultPlanStrategiesModule.DefaultStrategy.TimeAllocationMutator.toString());
             timing.setWeight(0.10);
             timing.setDisableAfter((int) Math.round(0.9 * numberOfIterations));
             config.strategy().addStrategySettings(timing);

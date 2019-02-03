@@ -19,7 +19,7 @@
 package org.matsim.up.vehicleBan;
 
 import org.matsim.api.core.v01.Scenario;
-import org.matsim.core.config.ConfigGroup;
+import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.controler.AbstractModule;
 import org.matsim.core.controler.Controler;
 
@@ -31,16 +31,26 @@ import org.matsim.core.controler.Controler;
  * (possibly) additional binding can be performed.
  *
  * @author jwjoubert
+ *
+ * Should now use {@link VehicleBanModule}.
  */
-public final class VehicleBanController {
+@Deprecated
+final class VehicleBanController {
 
     private Controler controller;
 
-    VehicleBanController(Scenario sc, final VehicleBanType type, final VehicleBanChecker checker) {
+    VehicleBanController(Scenario sc, double fine, double probability, boolean stuck, final VehicleBanChecker checker) {
         controller = new Controler(sc);
-        ConfigGroup configGroup = new VehicleBanConfigGroup();
-        controller.getConfig().addModule(configGroup);
 
+        /* Add the config group if it was not already in the Scenario's Config. */
+        VehicleBanConfigGroup vbc = ConfigUtils.addOrGetModule(sc.getConfig(), VehicleBanConfigGroup.NAME, VehicleBanConfigGroup.class);
+        vbc.setFine(fine);
+        vbc.setProbability(probability);
+        vbc.setStuck(stuck);
+
+        VehicleBanType type = new VehicleBanType(stuck ? VehicleBanType.Type.FINE_AND_STUCK : VehicleBanType.Type.FINE_ONLY, probability, fine);
+
+        /* TODO Change so that a single VehicleBanModule is used. */
         /* All experiments must have the following set up so that we can flag a
          * selected plan as using a banned route. */
         controller.addOverridingModule(new AbstractModule() {
@@ -50,7 +60,7 @@ public final class VehicleBanController {
                 this.addEventHandlerBinding().toInstance(new VehicleBanEventHandler(checker, type, false));
             }
         });
-        controller.setScoringFunctionFactory(new VehicleBanScoringFunctionFactory(sc, type));
+        controller.setScoringFunctionFactory(new VehicleBanScoringFunctionFactory());
     }
 
     /**
@@ -58,7 +68,7 @@ public final class VehicleBanController {
      *
      * @return the {@link Controler}.
      */
-    public Controler getController() {
+    Controler getController() {
         return this.controller;
     }
 

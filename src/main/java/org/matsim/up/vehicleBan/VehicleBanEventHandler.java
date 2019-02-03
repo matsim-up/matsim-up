@@ -39,7 +39,7 @@ import org.matsim.vehicles.Vehicle;
  * 
  * @author jwjoubert
  */
-public class VehicleBanEventHandler implements LinkEnterEventHandler{
+class VehicleBanEventHandler implements LinkEnterEventHandler{
 
 	private final VehicleBanChecker checker;
 	private final VehicleBanType type;

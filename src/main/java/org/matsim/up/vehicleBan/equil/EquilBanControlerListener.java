@@ -52,12 +52,13 @@ import java.util.Map;
 class EquilBanControlerListener implements StartupListener, IterationEndsListener, ShutdownListener {
 
 	@Inject
-	Scenario sc;
+    Scenario sc;
 
 	@Inject
-	EquilBanLinkEnterEventHandler eventhandler;
+    EquilBanLinkEnterEventHandler eventhandler;
 
-	@Inject EventsManager events;
+	@Inject
+    EventsManager events;
 
 	EquilBanControlerListener() {
 	}
@@ -84,7 +85,7 @@ class EquilBanControlerListener implements StartupListener, IterationEndsListene
 			}
 		}
 
-		BufferedWriter bw = IOUtils.getBufferedWriter(event.getServices().getControlerIO().getOutputPath() + "/" + 
+		BufferedWriter bw = IOUtils.getBufferedWriter(event.getServices().getControlerIO().getOutputPath() + "/" +
 				EquilBanScenario.OUTPUT_FILENAME_STATS);
 		try {
 			try {

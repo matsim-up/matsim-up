@@ -15,9 +15,10 @@
  *   See also COPYING, LICENSE and WARRANTY file                           *
  *                                                                         *
  * *********************************************************************** */
-  
+
 package org.matsim.up.vehicleBan;
 
+import com.google.inject.Inject;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.population.Person;
 import org.matsim.core.scoring.ScoringFunction;
@@ -28,34 +29,31 @@ import org.matsim.core.scoring.functions.*;
 /**
  * This is mainly a copy-paste version of the standard {@link CharyparNagelScoringFunctionFactory}
  * that I've just adapted slightly for the {@link VehicleBanScoringFunction}.
- * 
+ *
  * @author jwjoubert
  */
-public class VehicleBanScoringFunctionFactory implements ScoringFunctionFactory {
-	private Scenario sc;
-	private final VehicleBanType type;
+final class VehicleBanScoringFunctionFactory implements ScoringFunctionFactory {
+    @Inject
+    private Scenario sc;
 
-	VehicleBanScoringFunctionFactory(Scenario sc, VehicleBanType type) {
-		this.sc = sc;
-		this.type = type;
-	}
+    VehicleBanScoringFunctionFactory() {
+    }
 
-	@Override
-	public ScoringFunction createNewScoringFunction(Person person) {
-		SumScoringFunction sumScoringFunction = new SumScoringFunction();
+    @Override
+    public ScoringFunction createNewScoringFunction(Person person) {
+        SumScoringFunction sumScoringFunction = new SumScoringFunction();
 
-		/* Score activities, payments and being stuck with the default MATSim 
-		 * scoring based on utility parameters in the config file. */
-		final ScoringParameters params = new ScoringParameters.Builder(sc, person.getId()).build();
-		sumScoringFunction.addScoringFunction(new CharyparNagelActivityScoring(params));
-		sumScoringFunction.addScoringFunction(new CharyparNagelLegScoring(params, sc.getNetwork()));
-		sumScoringFunction.addScoringFunction(new CharyparNagelMoneyScoring(params));
-		sumScoringFunction.addScoringFunction(new CharyparNagelAgentStuckScoring(params));
-		
-		/* Add the money scoring of being caught. */
-		sumScoringFunction.addScoringFunction(new VehicleBanScoringFunction(
-				person, type, params.marginalUtilityOfMoney));
+        /* Score activities, payments and being stuck with the default MATSim
+         * scoring based on utility parameters in the config file. */
+        final ScoringParameters params = new ScoringParameters.Builder(sc, person.getId()).build();
+        sumScoringFunction.addScoringFunction(new CharyparNagelActivityScoring(params));
+        sumScoringFunction.addScoringFunction(new CharyparNagelLegScoring(params, sc.getNetwork()));
+        sumScoringFunction.addScoringFunction(new CharyparNagelMoneyScoring(params));
+        sumScoringFunction.addScoringFunction(new CharyparNagelAgentStuckScoring(params));
 
-		return sumScoringFunction;
-	}
+        /* Add the money scoring of being caught. */
+        sumScoringFunction.addScoringFunction(new VehicleBanScoringFunction(person, sc));
+
+        return sumScoringFunction;
+    }
 }

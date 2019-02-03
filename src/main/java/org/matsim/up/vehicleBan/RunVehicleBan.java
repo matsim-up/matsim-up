@@ -2,7 +2,7 @@
  * project: org.matsim.*
  * *********************************************************************** *
  *                                                                         *
- * copyright       : (C) 2018 by the members listed in the COPYING,        *
+ * copyright       : (C) 2019 by the members listed in the COPYING,        *
  *                   LICENSE and WARRANTY file.                            *
  * email           : info at matsim dot org                                *
  *                                                                         *
@@ -15,51 +15,38 @@
  *   See also COPYING, LICENSE and WARRANTY file                           *
  *                                                                         *
  * *********************************************************************** */
-
 package org.matsim.up.vehicleBan;
-  
-/**
- * @author jwjoubert
- */
-@Deprecated
-final public class VehicleBanType {
-	final private double probabilityGettingCaught;
-	final private double fineWhenCaught;
-	final private Type type;
-	
-	VehicleBanType(Type type, double probabilityGettingCaught, double fineWhenCaught) {
-		this.probabilityGettingCaught = probabilityGettingCaught;
-		this.fineWhenCaught = fineWhenCaught;
-		this.type = type;
-	}
 
-	public double getProbabilityGettingCaught() {
-		return this.probabilityGettingCaught;
-	}
-	
-	public double getFineWhenCaught() {
-		return this.fineWhenCaught;
-	}
-	
-	public String getShortName() {
-		return this.type.getShortName();
-	}
-	
-	public Type getType() {
-		return this.type;
-	}
-	
-	public enum Type{
-		FINE_ONLY("fine"), FINE_AND_STUCK("stuck");
-		
-		private final String shortName;
-		
-		Type(String name) {
-			this.shortName = name;
-		}
-		
-		public String getShortName() {
-			return this.shortName;
-		}
-	}
+import org.matsim.api.core.v01.Scenario;
+import org.matsim.core.config.ConfigUtils;
+import org.matsim.core.controler.Controler;
+import org.matsim.core.controler.OutputDirectoryHierarchy;
+import org.matsim.core.scenario.ScenarioUtils;
+import org.matsim.up.utils.Header;
+
+public class RunVehicleBan {
+
+    public static void main(String[] args){
+        Header.printHeader(RunVehicleBan.class, args);
+
+        Scenario sc = ScenarioUtils.createScenario(ConfigUtils.createConfig());
+        Controler controler = new Controler(sc);
+
+//        VehicleBanModule module = VehicleBanUtils.createModule(0.25, 1000.0, true);
+        VehicleBanModule module = VehicleBanUtils.createModule();
+        module.setVehicleBanChecker( VehicleBanUtils.createVehicleBanCheckerThatAllowsAllLinks());
+        module.setFineOnSpot(true);
+
+        controler.addOverridingModule(module);
+
+        controler.getConfig().controler().setOverwriteFileSetting(OutputDirectoryHierarchy.OverwriteFileSetting.deleteDirectoryIfExists);
+        controler.getConfig().controler().setLastIteration(2);
+        controler.run();
+
+        Header.printFooter();
+    }
+
+
+
+
 }

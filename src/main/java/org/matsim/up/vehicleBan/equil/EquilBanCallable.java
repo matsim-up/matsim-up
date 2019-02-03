@@ -20,7 +20,6 @@ package org.matsim.up.vehicleBan.equil;
 
 import org.apache.log4j.Logger;
 import org.matsim.up.utils.FileUtils;
-import org.matsim.up.vehicleBan.VehicleBanType;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,13 +39,19 @@ class EquilBanCallable implements Callable<List<String>> {
 	final private File originalJarFile;
 	final private File inputFolder;
 	final private File parentOutputFolder;
-	final private VehicleBanType type;
+	final private double probability;
+	final private double fine;
+	final private boolean stuck;
+	final private String experiment;
 
 	EquilBanCallable(
 			final File originalJarFile,
 			final File inputFolder,
 			final File parentOutputFolder,
-			final VehicleBanType type) {
+			double probability,
+			double fine,
+			boolean stuck
+			) {
 		
 		if(!originalJarFile.exists()) {
 			throw new IllegalArgumentException("Input jar file does not exist");
@@ -63,7 +68,10 @@ class EquilBanCallable implements Callable<List<String>> {
 		}
 		this.parentOutputFolder = parentOutputFolder;
 
-		this.type = type;
+		this.probability = probability;
+		this.fine = fine;
+		this.stuck = stuck;
+		this.experiment = stuck ? "stuck" : "fine";
 	}
 	
 	
@@ -71,9 +79,9 @@ class EquilBanCallable implements Callable<List<String>> {
 	public List<String> call() throws Exception {
 		File thisOutputFolder = new File(String.format("%s/%s_%.2f_%04.0f/",
 				parentOutputFolder.getAbsolutePath(),
-				type.getShortName(), 
-				type.getProbabilityGettingCaught(), 
-				type.getFineWhenCaught()));
+				this.experiment,
+				this.probability,
+				this.fine));
 		boolean created = thisOutputFolder.mkdir();
 		if(!created){
 			throw new RuntimeException("Could not create the output folder " + thisOutputFolder);
@@ -89,10 +97,10 @@ class EquilBanCallable implements Callable<List<String>> {
 				"-Xmx2g",
 				"-cp",
 				"thisJar.jar",
-				"org.matsim.up.vehicleBan.equil.RunEquilExperiment",
-				type.getType().name(),
-				String.valueOf(type.getProbabilityGettingCaught()),
-				String.valueOf(type.getFineWhenCaught()),
+				"org.matsim.wp086.RunEquilExperiment",
+				String.valueOf(this.probability),
+				String.valueOf(this.fine),
+				String.valueOf(this.stuck),
 				inputFolder.getAbsolutePath() + "/network.xml",
 				thisOutputFolder.getAbsolutePath()
 				);
@@ -100,9 +108,9 @@ class EquilBanCallable implements Callable<List<String>> {
 		runBuilder.redirectErrorStream(true);
 		final Process equilProcess = runBuilder.start();
 		log.info(String.format("Process started for run '%s_%.2f_%04.0f'...", 
-				type.getShortName(), 
-				type.getProbabilityGettingCaught(), 
-				type.getFineWhenCaught()));
+				this.experiment,
+				this.probability,
+				this.fine));
 		log.info(" in folder " + thisOutputFolder.getAbsolutePath());
 		BufferedReader br = new BufferedReader(new InputStreamReader(equilProcess.getInputStream()));
 		String line;
@@ -111,15 +119,15 @@ class EquilBanCallable implements Callable<List<String>> {
 			log.info(line);
 		}
 		int equilExitCode = equilProcess.waitFor();
-		log.info(String.format("Process ended for run '%s_%.2f_%04.0f'; exit status '%d'.", 
-				type.getShortName(), 
-				type.getProbabilityGettingCaught(), 
-				type.getFineWhenCaught(), equilExitCode));
+		log.info(String.format("Process ended for run '%s_%.2f_%04.0f'; exit status '%d'.",
+				this.experiment,
+				this.probability,
+				this.fine, equilExitCode));
 		if(equilExitCode != 0) {
 			log.error(String.format("Could not complete run '%s_%.2f_%04.0f'.",
-					type.getShortName(),
-					type.getProbabilityGettingCaught(), 
-					type.getFineWhenCaught()));
+					this.experiment,
+					this.probability,
+					this.fine));
 		}
 		
 		/* Clean up. */
@@ -131,21 +139,21 @@ class EquilBanCallable implements Callable<List<String>> {
 
 		String statsFile = String.format("%s/output_%s_%.2f_%04.0f/%s", 
 				thisOutputFolder,
-				type.getShortName(),
-				type.getProbabilityGettingCaught(),
-				type.getFineWhenCaught(),
+				this.experiment,
+				this.probability,
+				this.fine,
 				EquilBanScenario.OUTPUT_FILENAME_STATS);
-		String peakFile = String.format("%s/output_%s_%.2f_%04.0f/%s", 
+		String peakFile = String.format("%s/output_%s_%.2f_%04.0f/%s",
 				thisOutputFolder,
-				type.getShortName(),
-				type.getProbabilityGettingCaught(),
-				type.getFineWhenCaught(),
+				this.experiment,
+				this.probability,
+				this.fine,
 				EquilBanScenario.OUTPUT_FILENAME_ROUTE_CHOICE_PEAK);
 		String offpeakFile = String.format("%s/output_%s_%.2f_%04.0f/%s",
 				thisOutputFolder,
-				type.getShortName(),
-				type.getProbabilityGettingCaught(),
-				type.getFineWhenCaught(),
+				this.experiment,
+				this.probability,
+				this.fine,
 				EquilBanScenario.OUTPUT_FILENAME_ROUTE_CHOICE_OFFPEAK);
 		List<String> paths = new ArrayList<>(3);
 		paths.add(statsFile);

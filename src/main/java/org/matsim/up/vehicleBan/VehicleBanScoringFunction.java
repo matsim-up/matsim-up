@@ -15,45 +15,52 @@
  *   See also COPYING, LICENSE and WARRANTY file                           *
  *                                                                         *
  * *********************************************************************** */
-  
+
 package org.matsim.up.vehicleBan;
 
+import com.google.inject.Inject;
+import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.population.Person;
+import org.matsim.core.config.Config;
+import org.matsim.core.config.ConfigGroup;
+import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.scoring.SumScoringFunction.BasicScoring;
 
 /**
- * 
  * @author jwjoubert
  */
-public class VehicleBanScoringFunction implements BasicScoring {
-	private Person person;
-	private final VehicleBanType type;
-	private final double marginalUtilityOfMoney;
+final class VehicleBanScoringFunction implements BasicScoring {
+    private Person person;
+    private Scenario sc;
 
-	VehicleBanScoringFunction(
-			Person person, 
-			VehicleBanType type,
-			double marginalUtilityOfMoney) {
-		this.person = person;
-		this.type = type;
-		this.marginalUtilityOfMoney = marginalUtilityOfMoney;
-	}
-	
-	@Override
-	public void finish() {
-	}
+    VehicleBanScoringFunction(Person person, Scenario sc) {
+        this.person = person;
+        this.sc = sc;
+    }
 
-	@Override
-	public double getScore() {
-		Object o = person.getSelectedPlan().getAttributes().getAttribute( VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_FINED );
-		if(o != null) {
-			boolean fined = (boolean) o;
-			if(fined) {
-				return -type.getFineWhenCaught()*marginalUtilityOfMoney;
-			}
-		}
-		
-		return 0.0;
-	}
+    @Override
+    public void finish() {
+    }
+
+    @Override
+    public double getScore() {
+
+        ConfigGroup configGroup = sc.getConfig().getModules().get(VehicleBanConfigGroup.NAME);
+        if (configGroup == null) {
+            throw new RuntimeException("Cannot find the 'VehicleBanConfigGroup' for scoring parameters");
+        }
+        double fineWhenCaught = Double.parseDouble(configGroup.getParams().get(VehicleBanConfigGroup.FINE));
+
+//        double fineWhenCaught = ConfigUtils.addOrGetModule(config, VehicleBanConfigGroup.NAME, VehicleBanConfigGroup.class).getFine();
+        Object o = person.getSelectedPlan().getAttributes().getAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_FINED);
+        if (o != null) {
+            boolean fined = (boolean) o;
+            if (fined) {
+                return -fineWhenCaught * sc.getConfig().planCalcScore().getMarginalUtilityOfMoney();
+            }
+        }
+
+        return 0.0;
+    }
 
 }

@@ -30,9 +30,9 @@ import org.matsim.core.controler.listener.BeforeMobsimListener;
  * 
  * @author jwjoubert
  */
-public final class VehicleBanControlerListener implements BeforeMobsimListener {
+final class VehicleBanControlerListener implements BeforeMobsimListener {
 
-	@Inject private Scenario sc;
+	@Inject Scenario sc;
 
 	@Override
 	public void notifyBeforeMobsim(BeforeMobsimEvent event) {
