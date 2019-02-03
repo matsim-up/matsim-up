@@ -54,7 +54,6 @@ import java.util.List;
  * @author jwjoubert
  */
 class EquilBanScenario {
-    final private static int INITIAL_RANDOM_DRAWS = 1000;
     final static String VEHICLE_TYPE_CONTROL = "control";
     final static String VEHICLE_TYPE_EXPERIMENT = "experiment";
     final static String STRATEGY_RANDOM_REROUTE = "randomReroute";
@@ -142,12 +141,6 @@ class EquilBanScenario {
             sc.getVehicles().addVehicleType(experimentVehicleType);
             sc.getConfig().qsim().setVehiclesSource(VehiclesSource.fromVehiclesData);
 
-            /* Do some initial samples from the random number generator. */
-            MatsimRandom.reset(seed);
-            for (int i = 0; i < INITIAL_RANDOM_DRAWS; i++) {
-                MatsimRandom.getRandom().nextDouble();
-            }
-
             /* Read the network */
             File equilNetworkFile = new File(equilPath);
             new MatsimNetworkReader(sc.getNetwork()).readFile(equilNetworkFile.getAbsolutePath());
@@ -210,6 +203,7 @@ class EquilBanScenario {
 
         private void setupConfig() {
             Config config = sc.getConfig();
+            config.global().setRandomSeed(this.seed);
 
             config.controler().setFirstIteration(0);
             config.controler().setLastIteration(numberOfIterations);
@@ -247,7 +241,7 @@ class EquilBanScenario {
             config.strategy().addStrategySettings(changeExpBeta);
 
             StrategySettings timing = new StrategySettings();
-            timing.setStrategyName(DefaultPlanStrategiesModule.DefaultStrategy.TimeAllocationMutator.toString());
+            timing.setStrategyName(DefaultPlanStrategiesModule.DefaultStrategy.TimeAllocationMutator);
             timing.setWeight(0.10);
             timing.setDisableAfter((int) Math.round(0.9 * numberOfIterations));
             config.strategy().addStrategySettings(timing);
