@@ -118,7 +118,7 @@
         <dependency>
             <groupId>org.jzy3d</groupId>
             <artifactId>jzy3d-api</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.2</version>
         </dependency>
 
         <!-- Needed for handling SRTM files -->

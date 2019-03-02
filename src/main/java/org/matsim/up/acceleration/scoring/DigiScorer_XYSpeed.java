@@ -51,15 +51,15 @@ import org.matsim.up.acceleration.grid.DigiGrid_XYSpeed;
  * @author jwjoubert
  */
 public interface DigiScorer_XYSpeed extends DigiScorer{
-	final static Logger LOG = Logger.getLogger(DigiScorer_XYZ.class);
+	Logger LOG = Logger.getLogger(DigiScorer_XYZ.class);
 	
-	public void buildScoringModel(String filename);
+	void buildScoringModel(String filename);
 
-	public RISK_GROUP getRiskGroup(String record);
+	RISK_GROUP getRiskGroup(String record);
 
-	public void rateIndividuals(String filename, String outputFolder);
+	void rateIndividuals(String filename, String outputFolder);
 
-	public DigiGrid_XYSpeed getGrid();
+	DigiGrid_XYSpeed getGrid();
 
-	public void setGrid(DigiGrid_XYSpeed grid);
+	void setGrid(DigiGrid_XYSpeed grid);
 }
