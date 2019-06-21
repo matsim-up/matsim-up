@@ -47,7 +47,7 @@ class EquilBanLinkEnterEventHandler implements LinkEnterEventHandler {
 	@Inject private Scenario sc;
 
 	public EquilBanLinkEnterEventHandler() {
-		this.checker = new EquilVehicleBanChecker();
+		this.checker = new EquilVehicleBanChecker(sc);
 		this.linkMapPeak = setupLinkMap();
 		this.linkMapOffPeak = setupLinkMap();
 	}

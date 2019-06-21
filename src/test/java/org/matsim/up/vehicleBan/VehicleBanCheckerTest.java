@@ -32,15 +32,15 @@ public class VehicleBanCheckerTest {
     public void testVehicleBanChecker() {
         VehicleBanChecker checker = buildVehicleBanChecker();
 
-        Vehicle bannedVehicle = new VehicleImpl(Id.create("v1", Vehicle.class), new VehicleTypeImpl(Id.create("v1Type", VehicleType.class)));
-        Vehicle NonBannedVehicle = new VehicleImpl(Id.create("v2", Vehicle.class), new VehicleTypeImpl(Id.create("v1Type", VehicleType.class)));
+        Id<Vehicle> bannedVehicleId = Id.create("v1", Vehicle.class);
+        Id<Vehicle> NonBannedVehicleId = Id.create("v2", Vehicle.class);
         Id<Link> bannedLink = Id.createLinkId("l1");
         Id<Link> NonBannedLink = Id.createLinkId("l2");
         double bannedTime = Time.parseTime("07:00:00");
         double NonBannedTime = Time.parseTime("09:00:00");
 
-        Assert.assertTrue("Vehicle should be banned.", checker.isBannedVehicle(bannedVehicle));
-        Assert.assertFalse("Vehicle should not be banned.", checker.isBannedVehicle(NonBannedVehicle));
+        Assert.assertTrue("Vehicle should be banned.", checker.isBannedVehicle(bannedVehicleId));
+        Assert.assertFalse("Vehicle should not be banned.", checker.isBannedVehicle(NonBannedVehicleId));
 
         Assert.assertTrue("Link should be banned.", checker.isBannedLink(bannedLink));
         Assert.assertFalse("Link should not be banned.", checker.isBannedLink(NonBannedLink));
@@ -48,7 +48,7 @@ public class VehicleBanCheckerTest {
         Assert.assertTrue("Time should be banned", checker.isBannedTime(bannedTime));
         Assert.assertFalse("Time should not be banned", checker.isBannedTime(NonBannedTime));
 
-        Assert.assertTrue("Should be banned", checker.isBanned(bannedVehicle, bannedLink, bannedTime));
+        Assert.assertTrue("Should be banned", checker.isBanned(bannedVehicleId, bannedLink, bannedTime));
     }
 
 
@@ -58,13 +58,13 @@ public class VehicleBanCheckerTest {
             private Id<Link> bannedLink = Id.createLinkId("l1");
 
             @Override
-            public boolean isBanned(Vehicle vehicle, Id<Link> linkId, double time) {
-                return isBannedVehicle(vehicle) && isBannedLink(linkId) && isBannedTime(time);
+            public boolean isBanned(Id<Vehicle> vehicleId, Id<Link> linkId, double time) {
+                return isBannedVehicle(vehicleId) && isBannedLink(linkId) && isBannedTime(time);
             }
 
             @Override
-            public boolean isBannedVehicle(Vehicle vehicle) {
-                return vehicle.getId().equals(bannedVehicle);
+            public boolean isBannedVehicle(Id<Vehicle> vehicleId) {
+                return vehicleId.equals(bannedVehicle);
             }
 
             @Override

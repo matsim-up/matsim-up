@@ -92,7 +92,7 @@ class RunEquilExperiment {
                 .setVehicleTypeExperiment(buildEquilExperimentVehicleType())
                 .build();
 
-        VehicleBanChecker checker = new EquilVehicleBanChecker();
+        VehicleBanChecker checker = new EquilVehicleBanChecker(sc);
         VehicleBanModule module = VehicleBanUtils.createModule(probabilityBeingCaught, fineWhenCaught, stuck);
         module.setVehicleBanChecker(checker);
 

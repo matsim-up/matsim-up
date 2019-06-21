@@ -31,9 +31,9 @@ import org.matsim.vehicles.Vehicle;
 
 public interface VehicleBanChecker {
 
-	boolean isBanned(Vehicle vehicle, Id<Link> linkId, double time);
+	boolean isBanned(Id<Vehicle> vehicleId, Id<Link> linkId, double time);
 
-	boolean isBannedVehicle(Vehicle vehicle);
+	boolean isBannedVehicle(Id<Vehicle> vehicleId);
 
 	boolean isBannedLink(Id<Link> linkId);
 

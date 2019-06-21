@@ -56,12 +56,12 @@ public class VehicleBanUtils {
     public static VehicleBanChecker createVehicleBanCheckerThatAllowsAllLinks() {
         return new VehicleBanChecker() {
             @Override
-            public boolean isBanned(Vehicle vehicle, Id<Link> linkId, double time) {
+            public boolean isBanned(Id<Vehicle> vehicleId, Id<Link> linkId, double time) {
                 return false;
             }
 
             @Override
-            public boolean isBannedVehicle(Vehicle vehicle) {
+            public boolean isBannedVehicle(Id<Vehicle> vehicleId) {
                 return false;
             }
 

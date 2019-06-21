@@ -19,6 +19,7 @@
 package org.matsim.up.vehicleBan.equil;
 
 import org.matsim.api.core.v01.Id;
+import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.core.utils.collections.Tuple;
 import org.matsim.core.utils.misc.Time;
@@ -36,15 +37,17 @@ import java.util.List;
  * @author jwjoubert
  */
 final class EquilVehicleBanChecker implements VehicleBanChecker {
-	
-	EquilVehicleBanChecker() {
+	final private Scenario sc;
+
+	EquilVehicleBanChecker(Scenario sc) {
+		this.sc = sc;
 	}
 	
 	@Override
-	public boolean isBanned(Vehicle vehicle, Id<Link> linkId, double time) {
+	public boolean isBanned(Id<Vehicle> vehicleId, Id<Link> linkId, double time) {
 		boolean banned = false;
 		
-		boolean bannedVehicle = isBannedVehicle(vehicle);
+		boolean bannedVehicle = isBannedVehicle(vehicleId);
 		if(bannedVehicle) {
 			boolean bannedTime = isBannedTime(time);
 			if(bannedTime) {
@@ -60,8 +63,9 @@ final class EquilVehicleBanChecker implements VehicleBanChecker {
 
 	
 	@Override
-	public boolean isBannedVehicle(Vehicle vehicle) {
+	public boolean isBannedVehicle(Id<Vehicle> vehicleId) {
 		boolean bannedVehicle = false;
+		Vehicle vehicle = sc.getVehicles().getVehicles().get(vehicleId);
 		if(vehicle.getType().getId().toString().equalsIgnoreCase("experiment")) {
 			bannedVehicle = true;
 		}

@@ -55,14 +55,14 @@ class VehicleBanEventHandler implements LinkEnterEventHandler {
 
     @Override
     public void handleEvent(LinkEnterEvent event) {
-        Vehicle vehicle = sc.getVehicles().getVehicles().get(event.getVehicleId());
+        Id<Vehicle> vehicleId = event.getVehicleId();
         Id<Link> linkId = event.getLinkId();
         double time = event.getTime();
 
-        if (checker.isBanned(vehicle, linkId, time)) {
+        if (checker.isBanned(vehicleId, linkId, time)) {
             /* Updated the flag for using a banned link. The following only
              * works if the vehicle and person has the same Id. */
-            Person person = sc.getPopulation().getPersons().get(Id.createPersonId(vehicle.getId().toString()));
+            Person person = sc.getPopulation().getPersons().get(Id.createPersonId(vehicleId.toString()));
             Plan plan = person.getSelectedPlan();
             plan.getAttributes().putAttribute(VehicleBanUtils.ATTRIBUTE_BANNED_ROUTE_TRAVELLED, true);
 
