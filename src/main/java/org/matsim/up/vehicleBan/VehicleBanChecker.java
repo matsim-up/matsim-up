@@ -20,6 +20,7 @@ package org.matsim.up.vehicleBan;
 
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
+import org.matsim.api.core.v01.population.Plan;
 import org.matsim.vehicles.Vehicle;
 
 /**
@@ -38,4 +39,15 @@ public interface VehicleBanChecker {
 	boolean isBannedLink(Id<Link> linkId);
 
 	boolean isBannedTime(double time);
+
+	/**
+	 * This method is necessary as the {@link Vehicle} may be from one of many
+	 * possible sources, for example the main {@link org.matsim.api.core.v01.Scenario},
+	 * the freight carriers, etc.
+	 *
+	 * @param vehicleId the vehicle entering the (possibly banned) link.
+	 * @return the selected {@link Plan} of the agent associated with the
+	 * 		   given vehicle.
+	 */
+	Plan getSelectedPlan(Id<Vehicle> vehicleId);
 }

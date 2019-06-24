@@ -21,6 +21,7 @@ package org.matsim.up.vehicleBan.equil;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.network.Link;
+import org.matsim.api.core.v01.population.Plan;
 import org.matsim.core.utils.collections.Tuple;
 import org.matsim.core.utils.misc.Time;
 import org.matsim.up.vehicleBan.VehicleBanChecker;
@@ -31,9 +32,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Implementation for the standard 'equil' example. The inner three links are 
+ * Implementation for the standard 'equil' example. The inner three links are
  * off-limits for vehicles of type 'experiment' between 07:00 and 08:00.
- * 
+ *
  * @author jwjoubert
  */
 final class EquilVehicleBanChecker implements VehicleBanChecker {
@@ -42,44 +43,44 @@ final class EquilVehicleBanChecker implements VehicleBanChecker {
 	EquilVehicleBanChecker(Scenario sc) {
 		this.sc = sc;
 	}
-	
+
 	@Override
 	public boolean isBanned(Id<Vehicle> vehicleId, Id<Link> linkId, double time) {
 		boolean banned = false;
-		
+
 		boolean bannedVehicle = isBannedVehicle(vehicleId);
-		if(bannedVehicle) {
+		if (bannedVehicle) {
 			boolean bannedTime = isBannedTime(time);
-			if(bannedTime) {
+			if (bannedTime) {
 				boolean bannedLink = isBannedLink(linkId);
-				if(bannedLink) {
+				if (bannedLink) {
 					banned = true;
 				}
 			}
-			
+
 		}
 		return banned;
 	}
 
-	
+
 	@Override
 	public boolean isBannedVehicle(Id<Vehicle> vehicleId) {
 		boolean bannedVehicle = false;
 		Vehicle vehicle = sc.getVehicles().getVehicles().get(vehicleId);
-		if(vehicle.getType().getId().toString().equalsIgnoreCase("experiment")) {
+		if (vehicle.getType().getId().toString().equalsIgnoreCase("experiment")) {
 			bannedVehicle = true;
 		}
 		return bannedVehicle;
 	}
 
-	
+
 	@Override
 	public boolean isBannedLink(Id<Link> linkId) {
 		boolean bannedLink = false;
 		Iterator<Id<Link>> iterator = getBannedLinksEquil().iterator();
-		while(!bannedLink && iterator.hasNext()) {
+		while (!bannedLink && iterator.hasNext()) {
 			Id<Link> nextLink = iterator.next();
-			if(nextLink.equals(linkId)) {
+			if (nextLink.equals(linkId)) {
 				bannedLink = true;
 			}
 		}
@@ -91,24 +92,31 @@ final class EquilVehicleBanChecker implements VehicleBanChecker {
 	public boolean isBannedTime(double time) {
 		boolean bannedTime = false;
 		Iterator<Tuple<Double, Double>> iterator = getBannedTimeWindowsEquil().iterator();
-		while(!bannedTime && iterator.hasNext()) {
+		while (!bannedTime && iterator.hasNext()) {
 			Tuple<Double, Double> nextTimeWindow = iterator.next();
-			if(time >= nextTimeWindow.getFirst() && time < nextTimeWindow.getSecond()) {
+			if (time >= nextTimeWindow.getFirst() && time < nextTimeWindow.getSecond()) {
 				bannedTime = true;
 			}
 		}
 		return bannedTime;
 	}
-	
-	
-	private static List<Tuple<Double, Double>> getBannedTimeWindowsEquil(){
+
+	@Override
+	public Plan getSelectedPlan(Id<Vehicle> vehicleId) {
+		/* Assuming, as is the case for this equil example, that the vehicle
+		Id and the Person Id is the same. */
+		return this.sc.getPopulation().getPersons().get(Id.createPersonId(vehicleId.toString())).getSelectedPlan();
+	}
+
+
+	private static List<Tuple<Double, Double>> getBannedTimeWindowsEquil() {
 		List<Tuple<Double, Double>> list = new ArrayList<>();
 		list.add(new Tuple<>(Time.parseTime("07:00:00"), Time.parseTime("08:00:00")));
 		return list;
 	}
-	
-	
-	private static List<Id<Link>> getBannedLinksEquil(){
+
+
+	private static List<Id<Link>> getBannedLinksEquil() {
 		List<Id<Link>> list = new ArrayList<>(6);
 		list.add(Id.createLinkId("5"));
 		list.add(Id.createLinkId("6"));

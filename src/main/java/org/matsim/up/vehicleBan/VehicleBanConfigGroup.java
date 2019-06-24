@@ -26,12 +26,12 @@ import java.util.Map;
  * @author jwjoubert
  */
 final class VehicleBanConfigGroup extends ReflectiveConfigGroup {
-    public final static String NAME = "vehicleBan";
+    final static String NAME = "vehicleBan";
 
-    final static String PROBABILITY = "probability";
-    final static String FINE = "fine";
-    final static String STUCK = "stuck";
-    final static String FINE_ON_THE_SPOT = "spotFined";
+    private final static String PROBABILITY = "probability";
+    private final static String FINE = "fine";
+    private final static String STUCK = "stuck";
+    private final static String FINE_ON_THE_SPOT = "spotFined";
 
     private double fine = 0.0;
     private double probability = 0.0;

@@ -21,6 +21,7 @@ package org.matsim.up.vehicleBan;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.network.Link;
+import org.matsim.api.core.v01.population.Plan;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.vehicles.Vehicle;
 
@@ -32,9 +33,11 @@ import org.matsim.vehicles.Vehicle;
  */
 public class VehicleBanUtils {
     final public static String ATTRIBUTE_BANNED_ROUTE_TRAVELLED = "bannedRouteTravelled";
-    final static String ATTRIBUTE_BANNED_ROUTE_FINED = "bannedRouteFined";
+    @SuppressWarnings("WeakerAccess")
+    final public static String ATTRIBUTE_BANNED_ROUTE_FINED = "bannedRouteFined";
 
 
+    @SuppressWarnings("WeakerAccess")
     public static VehicleBanModule createModule() {
         return new VehicleBanModule();
     }
@@ -45,6 +48,7 @@ public class VehicleBanUtils {
         return vehicleBanModule;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static VehicleBanConfigGroup getConfigGroup(Scenario sc){
         if(!sc.getConfig().getModules().containsKey( VehicleBanConfigGroup.NAME )){
             throw new IllegalArgumentException("Cannot find 'vehicleBan' ConfigGroup.");
@@ -52,8 +56,13 @@ public class VehicleBanUtils {
         return ConfigUtils.addOrGetModule(sc.getConfig(), VehicleBanConfigGroup.NAME, VehicleBanConfigGroup.class);
     }
 
+    @SuppressWarnings("WeakerAccess")
+    public static double getProbabilityOfBeingFined(Scenario sc){
+        return getConfigGroup(sc).getProbability();
+    }
 
-    public static VehicleBanChecker createVehicleBanCheckerThatAllowsAllLinks() {
+
+    static VehicleBanChecker createVehicleBanCheckerThatAllowsAllLinks() {
         return new VehicleBanChecker() {
             @Override
             public boolean isBanned(Id<Vehicle> vehicleId, Id<Link> linkId, double time) {
@@ -73,6 +82,11 @@ public class VehicleBanUtils {
             @Override
             public boolean isBannedTime(double time) {
                 return false;
+            }
+
+            @Override
+            public Plan getSelectedPlan(Id<Vehicle> vehicleId) {
+                return null;
             }
         };
     }

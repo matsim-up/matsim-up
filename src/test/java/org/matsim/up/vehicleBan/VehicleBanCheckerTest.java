@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.network.Link;
+import org.matsim.api.core.v01.population.Plan;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.population.io.PopulationReader;
 import org.matsim.core.scenario.ScenarioUtils;
@@ -75,6 +76,11 @@ public class VehicleBanCheckerTest {
             @Override
             public boolean isBannedTime(double time) {
                 return time >= Time.parseTime("06:00:00") && time <= Time.parseTime("08:00:00");
+            }
+
+            @Override
+            public Plan getSelectedPlan(Id<Vehicle> vehicleId) {
+                return null;
             }
         };
         return checker;
