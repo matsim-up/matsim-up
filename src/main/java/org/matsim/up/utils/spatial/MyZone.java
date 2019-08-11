@@ -20,13 +20,12 @@
 
 package org.matsim.up.utils.spatial;
 
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Polygon;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Identifiable;
-import org.matsim.utils.objectattributes.ObjectAttributes;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
 
 @Deprecated
 public class MyZone extends MultiPolygon implements Identifiable<MyZone>{
@@ -36,23 +35,16 @@ public class MyZone extends MultiPolygon implements Identifiable<MyZone>{
 	 */
 	private static final long serialVersionUID = 1L;
 	private final Id<MyZone> id;
-	private ObjectAttributes attr;
 
-	public MyZone(Polygon[] polygons, GeometryFactory factory, Id<MyZone> id) {
+	MyZone(Polygon[] polygons, GeometryFactory factory, Id<MyZone> id) {
 		super(polygons, factory);
 		this.id = id;
-		this.attr = new ObjectAttributes();
 	}
 	
 	@Override
 	public Id<MyZone> getId() {
 		return this.id;
 	}
-	
-	
-	public ObjectAttributes getObjectAttributes(){
-		return this.attr;
-	}
-	
+
 }
 

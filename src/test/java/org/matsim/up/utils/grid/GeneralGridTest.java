@@ -19,21 +19,16 @@
 
 package org.matsim.up.utils.grid;
 
-import java.io.File;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.locationtech.jts.geom.*;
 import org.matsim.core.utils.collections.QuadTree;
 import org.matsim.testcases.MatsimTestUtils;
-import org.matsim.up.utils.grid.GeneralGrid;
 import org.matsim.up.utils.grid.GeneralGrid.GridType;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
+import java.io.File;
+
 
 public class GeneralGridTest {
 	@Rule public MatsimTestUtils utils = new MatsimTestUtils();

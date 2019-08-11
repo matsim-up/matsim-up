@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.locationtech.jts.geom.*;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.core.utils.collections.QuadTree;
 import org.matsim.core.utils.geometry.CoordinateTransformation;
@@ -38,11 +39,6 @@ import org.matsim.core.utils.misc.Counter;
 import org.matsim.up.utils.Header;
 import org.opengis.feature.simple.SimpleFeature;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Class to generate either a square or hexagonal grid from a given 
@@ -218,7 +214,7 @@ public class GeneralGrid{
 	 * 	<b>Width</b> is the width of the grid cell.
 	 * </ul>
 	 * 
-	 * @param folder where the output will be written. The final output filename
+	 * @param filename where the output will be written. The final output filename
 	 * 		  will be dependent of the {@link GridType}, the grid's width, 
 	 * 		  followed by the <code>.csv</code> extension. 
 	 * @param originalCRS a string, allowably <code>null</code> describing the 
