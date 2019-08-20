@@ -300,6 +300,10 @@ public class KernelDensityEstimator {
 		return this.grid;
 	}
 
+	public KernelDensityEstimator makeEmptyCopy(){
+		return new KernelDensityEstimator(this.grid, this.kdeType, this.radius);
+	}
+
 
 	private class ProcessPointCallable implements Callable<Map<Point, Double>>{
 

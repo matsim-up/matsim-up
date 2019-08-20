@@ -27,44 +27,47 @@ import org.matsim.testcases.MatsimTestUtils;
 import org.matsim.up.utils.grid.GeneralGrid.GridType;
 import org.matsim.up.utils.grid.KernelDensityEstimator.KdeType;
 
+import java.util.Iterator;
+
 
 public class KernelDensityEstimatorTest {
 
-	@Rule public MatsimTestUtils utils = new MatsimTestUtils();
+	@Rule
+	public MatsimTestUtils utils = new MatsimTestUtils();
 
 	@Test
 	public void testConstructor() {
 		Polygon p = buildDummyPolygon();
 		GeneralGrid grid = new GeneralGrid(10.0, GridType.SQUARE);
 		grid.generateGrid(p);
-		
+
 		KernelDensityEstimator kde;
-		
-		try{
+
+		try {
 			kde = new KernelDensityEstimator(grid, KdeType.UNIFORM, 5.0);
 			Assert.fail("Schould have caught exception. Only KdeType.CELL allowed");
-		} catch (IllegalArgumentException e){
+		} catch (IllegalArgumentException e) {
 			/* Correctly caught exception. */
 		}
-		
-		try{
+
+		try {
 			kde = new KernelDensityEstimator(grid, KdeType.CELL, 0.0);
 			Assert.assertEquals("Wrong KdeType.", KdeType.CELL, kde.getKdeType());
 			Assert.assertEquals("Wrong GeneralGrid", grid, kde.getGrid());
 			Assert.assertEquals("Wrong radius.", 0.0, kde.getRadius(), MatsimTestUtils.EPSILON);
-		} catch(IllegalArgumentException e){
+		} catch (IllegalArgumentException e) {
 			Assert.fail("Should not have caused an exception. KdeType and width combination is correct");
 		}
 	}
-	
+
 	@Test
-	public void testProcessPoint_CELL(){
+	public void testProcessPoint_CELL() {
 		Polygon p = buildDummyPolygon();
 		GeneralGrid grid = new GeneralGrid(10.0, GridType.SQUARE);
 		grid.generateGrid(p);
-		
+
 		KernelDensityEstimator kde = new KernelDensityEstimator(grid, KdeType.CELL, 0.0);
-		
+
 		Point pc = p.getFactory().createPoint(new Coordinate(0.0, 0.0));
 
 		Point p1 = p.getFactory().createPoint(new Coordinate(1.0, 1.0));
@@ -79,56 +82,56 @@ public class KernelDensityEstimatorTest {
 	 * a point.
 	 */
 	@Test
-	public void testProcessPoint_UNIFORM(){
+	public void testProcessPoint_UNIFORM() {
 		Polygon p = buildDummyPolygon();
 		GeneralGrid grid = new GeneralGrid(10.0, GridType.SQUARE);
 		grid.generateGrid(p);
-		
+
 		/* Try a point in the lower-left corner. */
 		KernelDensityEstimator kde = new KernelDensityEstimator(grid, KdeType.UNIFORM, 15.0);
-		
+
 		Point pc1 = p.getFactory().createPoint(new Coordinate(0.0, 0.0));
 		kde.processPoint(pc1, 20);
 		Point pc2 = p.getFactory().createPoint(new Coordinate(10.0, 0.0));
 		Point pc3 = p.getFactory().createPoint(new Coordinate(10.0, 10.0));
 		Point pc4 = p.getFactory().createPoint(new Coordinate(0.0, 10.0));
-		
+
 		Assert.assertEquals("Wrong weight for cell (0, 0)", 5.0, kde.getWeight(pc1), MatsimTestUtils.EPSILON);
 		Assert.assertEquals("Wrong weight for cell (1, 0)", 5.0, kde.getWeight(pc2), MatsimTestUtils.EPSILON);
 		Assert.assertEquals("Wrong weight for cell (1, 1)", 5.0, kde.getWeight(pc3), MatsimTestUtils.EPSILON);
 		Assert.assertEquals("Wrong weight for cell (0, 1)", 5.0, kde.getWeight(pc4), MatsimTestUtils.EPSILON);
-		
+
 		/* Try another point on the boundary of four cells. */
 		Point target = p.getFactory().createPoint(new Coordinate(15.0, 15.0));
 		kde.processPoint(target, 20);
 		Point pc5 = p.getFactory().createPoint(new Coordinate(10.0, 20.0));
 		Point pc6 = p.getFactory().createPoint(new Coordinate(20.0, 10.0));
 		Point pc7 = p.getFactory().createPoint(new Coordinate(20.0, 20.0));
-		
+
 		Assert.assertEquals("Wrong weight for cell (1, 1)", 10.0, kde.getWeight(pc3), MatsimTestUtils.EPSILON);
 		Assert.assertEquals("Wrong weight for cell (1, 2)", 5.0, kde.getWeight(pc5), MatsimTestUtils.EPSILON);
 		Assert.assertEquals("Wrong weight for cell (2, 1)", 5.0, kde.getWeight(pc6), MatsimTestUtils.EPSILON);
 		Assert.assertEquals("Wrong weight for cell (2, 2)", 5.0, kde.getWeight(pc7), MatsimTestUtils.EPSILON);
 	}
-	
+
 	@Test
-	public void testProcessPoint_TRIANGULAR(){
+	public void testProcessPoint_TRIANGULAR() {
 		Polygon p = buildDummyPolygon();
 		GeneralGrid grid = new GeneralGrid(10.0, GridType.SQUARE);
 		grid.generateGrid(p);
-		
+
 		/* Try a point in the lower-left corner. */
 		KernelDensityEstimator kde = new KernelDensityEstimator(grid, KdeType.TRIANGULAR, 20.0);
 		Point target = p.getFactory().createPoint(new Coordinate(0.0, 0.0));
 		kde.processPoint(target, 20);
-		
+
 		Point pc11 = p.getFactory().createPoint(new Coordinate(0.0, 0.0));
 		Point pc21 = p.getFactory().createPoint(new Coordinate(10.0, 0.0));
 		Point pc31 = p.getFactory().createPoint(new Coordinate(20.0, 0.0));
 		Point pc12 = p.getFactory().createPoint(new Coordinate(0.0, 10.0));
 		Point pc22 = p.getFactory().createPoint(new Coordinate(10.0, 10.0));
 		Point pc13 = p.getFactory().createPoint(new Coordinate(0.0, 20.0));
-		
+
 		double w11 = 20.0;
 		double w21 = 10.0;
 		double w12 = 10.0;
@@ -141,13 +144,13 @@ public class KernelDensityEstimatorTest {
 		Assert.assertEquals("Wrong weight for cell (2,  2)", w22 / sum * 20.0, kde.getWeight(pc22), MatsimTestUtils.EPSILON);
 		Assert.assertEquals("Wrong weight for cell (1,  3)", 0.0, kde.getWeight(pc13), MatsimTestUtils.EPSILON);
 	}
-	
+
 	@Test
-	public void testProcessLine_CELL(){
+	public void testProcessLine_CELL() {
 		Polygon p = buildDummyPolygon();
 		GeneralGrid grid = new GeneralGrid(10.0, GridType.SQUARE);
 		grid.generateGrid(p);
-		
+
 		KernelDensityEstimator kde1 = new KernelDensityEstimator(grid, KdeType.CELL, 0.0);
 		Coordinate c0 = new Coordinate(0.0, 0.0);
 		Coordinate c1 = new Coordinate(20.0, 0.0);
@@ -160,7 +163,7 @@ public class KernelDensityEstimatorTest {
 		Assert.assertEquals("Wrong weight to cell (0, 0)", 5.0, kde1.getWeight(pc11), MatsimTestUtils.EPSILON);
 		Assert.assertEquals("Wrong weight to cell (1, 0)", 10.0, kde1.getWeight(pc21), MatsimTestUtils.EPSILON);
 		Assert.assertEquals("Wrong weight to cell (2, 0)", 5.0, kde1.getWeight(pc31), MatsimTestUtils.EPSILON);
-		
+
 		KernelDensityEstimator kde2 = new KernelDensityEstimator(grid, KdeType.CELL, 0.0);
 		Coordinate c2 = new Coordinate(0.0, 5.0);
 		Coordinate c3 = new Coordinate(20.0, 5.0);
@@ -177,20 +180,45 @@ public class KernelDensityEstimatorTest {
 		Assert.assertEquals("Wrong weight to cell (1, 1)", 5.0, kde2.getWeight(pc22), MatsimTestUtils.EPSILON);
 		Assert.assertEquals("Wrong weight to cell (2, 1)", 2.5, kde2.getWeight(pc32), MatsimTestUtils.EPSILON);
 	}
-	
+
+	@Test
+	public void testMakeEmptyCopy() {
+		Polygon p = buildDummyPolygon();
+		GeneralGrid grid = new GeneralGrid(10.0, GridType.HEX);
+		grid.generateGrid(p);
+
+		KernelDensityEstimator kde = new KernelDensityEstimator(grid, KdeType.CELL, 0.0);
+		Point point = new GeometryFactory().createPoint(new Coordinate(10.0, 10.0));
+		kde.processPoint(point, 1.0);
+		/* Find the point */
+		Point pointCell = null;
+		Iterator<Point> gridPointIterator = kde.getGrid().getGrid().values().iterator();
+		while (pointCell == null && gridPointIterator.hasNext()) {
+			Point gridPoint = gridPointIterator.next();
+			if(kde.getWeight(gridPoint) > 0.0){
+				pointCell = gridPoint;
+			}
+		}
+		Assert.assertEquals("Incorrect weight.", 1.0, kde.getWeight(pointCell), MatsimTestUtils.EPSILON);
+
+		KernelDensityEstimator kdeCopy = kde.makeEmptyCopy();
+		Assert.assertFalse("Should not be the same object.", kde.equals(kdeCopy));
+		Assert.assertEquals("Copy should have no weights.", 0.0, kdeCopy.getWeight(pointCell), MatsimTestUtils.EPSILON);
+	}
+
 
 	/**
 	 * Generating a polygon of 100 x 100.
 	 *
 	 * @return
 	 */
-	private Polygon buildDummyPolygon(){
+	private Polygon buildDummyPolygon() {
 		GeometryFactory gf = new GeometryFactory();
 		Coordinate c1 = new Coordinate(0.0, 0.0);
 		Coordinate c2 = new Coordinate(0.0, 100);
 		Coordinate c3 = new Coordinate(100, 100);
 		Coordinate c4 = new Coordinate(100, 0.0);
-		Coordinate[] ca = {c1,c2,c3,c4,c1};
+		Coordinate[] ca = {c1, c2, c3, c4, c1};
 		return gf.createPolygon(ca);
 	}
 
