@@ -45,7 +45,7 @@ final class VehicleBanScoringFunctionFactory implements ScoringFunctionFactory {
 
         /* Score activities, payments and being stuck with the default MATSim
          * scoring based on utility parameters in the config file. */
-        final ScoringParameters params = new ScoringParameters.Builder(sc, person.getId()).build();
+        final ScoringParameters params = new ScoringParameters.Builder(sc, person).build();
         sumScoringFunction.addScoringFunction(new CharyparNagelActivityScoring(params));
         sumScoringFunction.addScoringFunction(new CharyparNagelLegScoring(params, sc.getNetwork()));
         sumScoringFunction.addScoringFunction(new CharyparNagelMoneyScoring(params));

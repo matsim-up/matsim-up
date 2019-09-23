@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <matsim.version>12.0-2019w24-SNAPSHOT</matsim.version>
+        <matsim.version>12.0-2019w35-SNAPSHOT</matsim.version>
     </properties>
 
 
