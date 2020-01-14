@@ -79,6 +79,11 @@ public class SouthAfricaPopulationGrowth {
 	}
 
 	/**
+	 * Hide the constructor.
+	 */
+	private SouthAfricaPopulationGrowth(){}
+
+	/**
 	 * Get the cumulative growth factor for a given study area, relative to 2011 (the last census). For
 	 * example, if there was a 5% growth, the value 1.05 is returned.
 	 *
@@ -86,7 +91,7 @@ public class SouthAfricaPopulationGrowth {
 	 * @param year the year (>2011) for which the growth factor is returned.
 	 * @return the cumulative growth factor (since 2011).
 	 */
-	static double getGrowthFactor(StudyArea area, int year) {
+	public static double getGrowthFactor(StudyArea area, int year) {
 		populateGrowthMap();
 		if (year < 2012) {
 			throw new IllegalArgumentException(
