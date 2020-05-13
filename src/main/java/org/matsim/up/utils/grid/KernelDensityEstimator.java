@@ -17,20 +17,18 @@
  *                                                                         *
  * *********************************************************************** */
 
-/**
- *
- */
 package org.matsim.up.utils.grid;
+
+import org.apache.log4j.Logger;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
+import org.matsim.core.utils.misc.Counter;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.Callable;
-
-import org.apache.log4j.Logger;
-import org.locationtech.jts.geom.*;
-import org.matsim.core.utils.misc.Counter;
 
 
 /**
@@ -42,7 +40,6 @@ import org.matsim.core.utils.misc.Counter;
 public class KernelDensityEstimator {
 	final private static Logger LOG = Logger.getLogger(KernelDensityEstimator.class);
 
-	private final GeometryFactory gf = new GeometryFactory();
 	private KdeType kdeType;
 	private GeneralGrid grid;
 	private double radius;
@@ -61,7 +58,7 @@ public class KernelDensityEstimator {
 		this.grid = grid;
 		this.radius = radius;
 
-		this.weight = new HashMap<Point, Double>(grid.getGrid().size());
+		this.weight = new HashMap<>(grid.getGrid().size());
 
 	}
 
@@ -81,42 +78,23 @@ public class KernelDensityEstimator {
 		/* Only distribute the weight if it is greater than zero. */
 		if (weight > 0) {
 			/* For a line, we use different search radii for different KDE-types. */
-			double usedRadius;
-			switch (this.kdeType) {
-				case CELL:
-					/* The larger of the given radius, or half the cell width. This is
-					 * to ensure that if a point is on the shared boundary of two
-					 * geometries, they share the weight evenly, even though the given
-					 * radius might have been 0.0. */
-					usedRadius = Math.max(this.radius, this.grid.getCellWidth() / 2.0);
-					break;
-				case GAUSSIAN:
-					/* Three times the given radius is used. */
-					usedRadius = 3.0 * this.radius;
-					break;
-				default:
-					usedRadius = this.radius;
-					break;
-			}
+			double usedRadius = getUsedRadius();
 
 			/* Find all (possible) cells around the point. */
 			double sum = 0.0;
 			Collection<Point> neighbours = this.grid.getGrid().getDisk(p.getX(), p.getY(), usedRadius);
-			Map<Point, Double> interimMap = new HashMap<Point, Double>(neighbours.size());
+			Map<Point, Double> interimMap = new HashMap<>(neighbours.size());
 
 			/* Determine the interim weights. */
-			Iterator<Point> iterator = neighbours.iterator();
-			while (iterator.hasNext()) {
-				Point centroid = iterator.next();
+			for (Point centroid : neighbours) {
 				Geometry cell = this.grid.getCellGeometry(centroid);
 
 				switch (this.kdeType) {
 					case CELL:
 						/* Only consider the cell in which the point occurs. */
 						if (cell.covers(p)) {
-							double w = weight;
-							interimMap.put(centroid, w);
-							sum += w;
+							interimMap.put(centroid, weight);
+							sum += weight;
 						}
 						break;
 
@@ -138,38 +116,29 @@ public class KernelDensityEstimator {
 			}
 
 			/* Normalise the weights. */
-			for (Point cell : interimMap.keySet()) {
-				if (!this.weight.containsKey(cell)) {
-					this.weight.put(cell, interimMap.get(cell) / sum * weight);
-				} else {
-					this.weight.put(cell, this.weight.get(cell) + interimMap.get(cell) / sum * weight);
-				}
-			}
-			if (!silent) {
-				pointCounter.incCounter();
-			}
+			normaliseWeights(weight, silent, sum, interimMap, pointCounter);
 		}
 	}
 
-	public void processLine(LineString l, double weight) {
-		processLine(l, weight, false);
+	private void normaliseWeights(double weight, boolean silent, double sum, Map<Point, Double> map, Counter counter) {
+		for (Point cell : map.keySet()) {
+			if (!this.weight.containsKey(cell)) {
+				this.weight.put(cell, map.get(cell) / sum * weight);
+			} else {
+				this.weight.put(cell, this.weight.get(cell) + map.get(cell) / sum * weight);
+			}
+		}
+		if (!silent) {
+			counter.incCounter();
+		}
 	}
 
-	/**
-	 * Currently (September 2014, JWJ) this class processes the area along a 
-	 * given line segment by incrementally identifying points along the line, 
-	 * and finding all the cells within the given radius from the search point.
-	 *
-	 * @param l
-	 * @param weight
-	 */
-	public void processLine(LineString l, double weight, boolean silent) {
-		/* For a line, we use different search radii for different KDE-types. */
+	private double getUsedRadius() {
 		double usedRadius;
 		switch (this.kdeType) {
 			case CELL:
 				/* The larger of the given radius, or half the cell width. This is
-				 * to ensure that if a line is on the shared boundary of two
+				 * to ensure that if a point is on the shared boundary of two
 				 * geometries, they share the weight evenly, even though the given
 				 * radius might have been 0.0. */
 				usedRadius = Math.max(this.radius, this.grid.getCellWidth() / 2.0);
@@ -182,18 +151,34 @@ public class KernelDensityEstimator {
 				usedRadius = this.radius;
 				break;
 		}
+		return usedRadius;
+	}
+
+	public void processLine(LineString l, double weight) {
+		processLine(l, weight, false);
+	}
+
+	/**
+	 * Currently (September 2014, JWJ) this class processes the area along a 
+	 * given line segment by incrementally identifying points along the line, 
+	 * and finding all the cells within the given radius from the search point.
+	 *
+	 * @param l the line string along which the weight is distributed;
+	 * @param weight the weight.
+	 */
+	public void processLine(LineString l, double weight, boolean silent) {
+		/* For a line, we use different search radii for different KDE-types. */
+		double usedRadius = getUsedRadius();
 
 		/* Find all (possible) cells along the line segment. */
 		double sum = 0.0;
 		Coordinate c0 = l.getCoordinateN(0);
 		Coordinate c1 = l.getCoordinateN(1);
 		Collection<Point> neighbours = this.grid.getGrid().getElliptical(c0.x, c0.y, c1.x, c1.y, 2 * usedRadius + l.getLength());
-		Map<Point, Double> interimMap = new HashMap<Point, Double>(neighbours.size());
+		Map<Point, Double> interimMap = new HashMap<>(neighbours.size());
 
 		/* Determine the interim weights. */
-		Iterator<Point> iterator = neighbours.iterator();
-		while (iterator.hasNext()) {
-			Point centroid = iterator.next();
+		for (Point centroid : neighbours) {
 			Geometry cell = this.grid.getCellGeometry(centroid);
 
 			switch (this.kdeType) {
@@ -230,16 +215,7 @@ public class KernelDensityEstimator {
 		}
 
 		/* Normalise the weights. */
-		for (Point p : interimMap.keySet()) {
-			if (!this.weight.containsKey(p)) {
-				this.weight.put(p, interimMap.get(p) / sum * weight);
-			} else {
-				this.weight.put(p, this.weight.get(p) + interimMap.get(p) / sum * weight);
-			}
-		}
-		if (!silent) {
-			lineCounter.incCounter();
-		}
+		normaliseWeights(weight, silent, sum, interimMap, lineCounter);
 	}
 
 	private double getFunctionFromDistance(double distance) {
@@ -270,7 +246,7 @@ public class KernelDensityEstimator {
 
 
 	/**
-	 * @param args
+	 * @param args currently does nothing.
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -283,7 +259,7 @@ public class KernelDensityEstimator {
 	 *
 	 * @author jwjoubert
 	 */
-	public static enum KdeType {
+	public enum KdeType {
 		CELL,
 		EPANECHNIKOV,
 		GAUSSIAN,
@@ -307,26 +283,6 @@ public class KernelDensityEstimator {
 
 	public KernelDensityEstimator makeEmptyCopy() {
 		return new KernelDensityEstimator(this.grid, this.kdeType, this.radius);
-	}
-
-
-	private class ProcessPointCallable implements Callable<Map<Point, Double>> {
-
-		@Override
-		public Map<Point, Double> call() throws Exception {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	}
-
-
-	private class ProcessLineCallable implements Callable<Map<Point, Double>> {
-
-		@Override
-		public Map<Point, Double> call() throws Exception {
-			// TODO Auto-generated method stub
-			return null;
-		}
 	}
 
 }

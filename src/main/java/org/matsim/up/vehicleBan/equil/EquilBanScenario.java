@@ -70,8 +70,8 @@ class EquilBanScenario {
         private int numberOfPersons = 1000;
         private int numberOfIterations = 100;
         private String equilPath = ExamplesUtils.getTestScenarioURL("equil").getFile() + "network.xml";
-        private VehicleType controlVehicleType = new VehicleTypeImpl(Id.create(VEHICLE_TYPE_CONTROL, VehicleType.class));
-        private VehicleType experimentVehicleType = new VehicleTypeImpl(Id.create(VEHICLE_TYPE_EXPERIMENT, VehicleType.class));
+        private VehicleType controlVehicleType = VehicleUtils.createVehicleType(Id.create(VEHICLE_TYPE_CONTROL, VehicleType.class));
+        private VehicleType experimentVehicleType = VehicleUtils.createVehicleType(Id.create(VEHICLE_TYPE_EXPERIMENT, VehicleType.class));
         private long seed = 1234L;
         private String dumpLocation = null;
         private double probability = 0.0;
@@ -179,6 +179,9 @@ class EquilBanScenario {
                 person.getAttributes().putAttribute("vehicleType", vehicleType.getId().toString());
                 Vehicle vehicle = vf.createVehicle(Id.createVehicleId(i), vehicleType);
                 sc.getVehicles().addVehicle(vehicle);
+
+                /* Link the vehicle to the person. */
+                VehicleUtils.insertVehicleIdIntoAttributes(person, "car", vehicle.getId());
             }
 
 

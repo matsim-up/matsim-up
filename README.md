@@ -17,15 +17,16 @@ To use `matsim-up` as a dependency in an external maven project, update the exte
 	</repository>
 </repositories>
 ```
-
 and the depency on `matsim-up`
-
 ```
 <dependencies>
 	<dependency>
   		<groupId>org.matsim.up</groupId>
   		<artifactId>matsim-up</artifactId>
-  		<version>0.10.0-SNAPSHOT</version>
+  		<version>12.0-2020w01-SNAPSHOT</version>
 	</dependency>
 </dependencies>
 ```
+where the version is indicative of the specific 
+[`matsim`](https://github.com/matsim-org/matsim-libs) 
+version that this repository is compatible with.

@@ -44,7 +44,7 @@ public class KernelDensityEstimatorTest {
 		KernelDensityEstimator kde;
 
 		try {
-			kde = new KernelDensityEstimator(grid, KdeType.UNIFORM, 5.0);
+			new KernelDensityEstimator(grid, KdeType.UNIFORM, 5.0);
 			Assert.fail("Schould have caught exception. Only KdeType.CELL allowed");
 		} catch (IllegalArgumentException e) {
 			/* Correctly caught exception. */
@@ -202,15 +202,13 @@ public class KernelDensityEstimatorTest {
 		Assert.assertEquals("Incorrect weight.", 1.0, kde.getWeight(pointCell), MatsimTestUtils.EPSILON);
 
 		KernelDensityEstimator kdeCopy = kde.makeEmptyCopy();
-		Assert.assertFalse("Should not be the same object.", kde.equals(kdeCopy));
+		Assert.assertNotEquals("Should not be the same object.", kde, kdeCopy);
 		Assert.assertEquals("Copy should have no weights.", 0.0, kdeCopy.getWeight(pointCell), MatsimTestUtils.EPSILON);
 	}
 
 
 	/**
 	 * Generating a polygon of 100 x 100.
-	 *
-	 * @return
 	 */
 	private Polygon buildDummyPolygon() {
 		GeometryFactory gf = new GeometryFactory();

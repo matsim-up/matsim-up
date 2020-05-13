@@ -27,10 +27,8 @@ import org.matsim.up.utils.Header;
 import org.matsim.up.vehicleBan.VehicleBanChecker;
 import org.matsim.up.vehicleBan.VehicleBanModule;
 import org.matsim.up.vehicleBan.VehicleBanUtils;
-import org.matsim.vehicles.VehicleCapacity;
-import org.matsim.vehicles.VehicleCapacityImpl;
 import org.matsim.vehicles.VehicleType;
-import org.matsim.vehicles.VehicleTypeImpl;
+import org.matsim.vehicles.VehicleUtils;
 
 
 /**
@@ -117,13 +115,13 @@ class RunEquilExperiment {
 
 
     private static VehicleType buildEquilExperimentVehicleType() {
-        VehicleType type = new VehicleTypeImpl(Id.create("experiment", VehicleType.class));
+        VehicleType type = VehicleUtils.createVehicleType(Id.create("experiment", VehicleType.class));
         type.setLength(15.0);
         type.setPcuEquivalents(2.0);
         type.setMaximumVelocity(80.0 / 3.6);
-        VehicleCapacity capacity = new VehicleCapacityImpl();
-        capacity.setSeats(4);
-        type.setCapacity(capacity);
+//        VehicleCapacity capacity = new VehicleCapacity();
+//        capacity.setSeats(4);
+//        type.setCapacity(capacity);
         return type;
     }
 
