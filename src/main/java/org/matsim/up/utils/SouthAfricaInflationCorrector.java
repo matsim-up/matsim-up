@@ -94,7 +94,7 @@ public class SouthAfricaInflationCorrector {
 		double factor = 1.0;
 		if(fromYear == toYear){
 			/* Return the default 1.0 */
-			return factor;
+			return value;
 		} else if(fromYear < toYear){
 			for(int year = fromYear+1; year <= toYear; year++){
 				if(!inflationMap.containsKey(year)){
