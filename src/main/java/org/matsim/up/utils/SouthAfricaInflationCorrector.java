@@ -23,8 +23,6 @@ package org.matsim.up.utils;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
-
 /**
  * Class to convert monetary values using the Consumer Price Index (CPI)
  * using the average year-on-year rates as provided by Statistics South 
@@ -32,11 +30,10 @@ import org.apache.log4j.Logger;
  * @author jwjoubert
  */
 public class SouthAfricaInflationCorrector {
-	private final static Logger LOG = Logger.getLogger(SouthAfricaInflationCorrector.class);
 	private static Map<Integer, Double> inflationMap;
 
 	private static void populateInflationMap(){
-		inflationMap = new TreeMap<Integer, Double>();
+		inflationMap = new TreeMap<>();
 		inflationMap.put(1981, 0.152);
 		inflationMap.put(1982, 0.147);
 		inflationMap.put(1983, 0.124);
@@ -73,7 +70,10 @@ public class SouthAfricaInflationCorrector {
 		inflationMap.put(2014, 0.061);
 		inflationMap.put(2015, 0.046);
 		inflationMap.put(2016, 0.064);
-		inflationMap.put(2017, 0.061); // up to and including April 2017
+		inflationMap.put(2017, 0.053);
+		inflationMap.put(2018, 0.047);
+		inflationMap.put(2019, 0.041);
+		inflationMap.put(2020, 0.037); /* Up to and including May 2020. */
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class SouthAfricaInflationCorrector {
 	 * @param value the currency value to correct;
 	 * @param fromYear the base year of the given value; 
 	 * @param toYear the year to which the value must be converted/corrected for inflation.
-	 * @return
+	 * @return the converted value.
 	 */
 	public static double convert(double value, int fromYear, int toYear){
 		populateInflationMap();
@@ -94,6 +94,7 @@ public class SouthAfricaInflationCorrector {
 		double factor = 1.0;
 		if(fromYear == toYear){
 			/* Return the default 1.0 */
+			return factor;
 		} else if(fromYear < toYear){
 			for(int year = fromYear+1; year <= toYear; year++){
 				if(!inflationMap.containsKey(year)){
@@ -111,12 +112,9 @@ public class SouthAfricaInflationCorrector {
 		}
 		return value*factor;
 	}
-	
+
 	public static double getPurchasePowerParrity() {
-		double result = 0.0;
-		
-		
-		return result;
+		return 0.0;
 	}
 	
 }

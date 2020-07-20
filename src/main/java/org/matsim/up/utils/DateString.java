@@ -25,29 +25,46 @@ import java.util.GregorianCalendar;
 public class DateString extends GregorianCalendar{
 
 	/**
-	 * A small utility class that extends the <code>GregorianCalendar</code> and overwrites
-	 * the <code>toString</code> method to return the current time, in the form 
-	 * <code>YYYYMMDDHHMMSSsss</code> as a <code>String</code>.
+	 * A small utility class that extends the <code>GregorianCalendar</code> and
+	 * provide some more readable {@link String} formats.
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Returns the date of the class in the form YYYYMMDDHHMMSSsss.
+	 * @return the set date of the class in the form YYYY/MM/DD HH:MM:SS.
+	 */
+	public String toPrettyString(){
+		String result;
+		int[] fields = getDateFields();
+
+		result = String.format("%04d/%02d/%02d %02d:%02d:%02d",
+				fields[0], fields[1], fields[2],
+				fields[3], fields[4], fields[5]);
+		return result;
+	}
+
+	/**
+	 * @return the date of the class in the form YYYYMMDDHHMMSSsss.
 	 */
 	@Override
 	public String toString(){
-		String result = null;
+		String result;
+		int[] fields = getDateFields();
+		result = String.format("%04d%02d%02d%02d%02d%02d.%03d",
+				fields[0], fields[1], fields[2],
+				fields[3], fields[4], fields[5], fields[6]);
+		return result;
+	}
+
+	int[] getDateFields(){
 		int year = this.get(YEAR);
-		int month = this.get(MONTH)+1; // Seems to be a java thing that month is started at 0... 
+		int month = this.get(MONTH)+1; // Seems to be a java thing that month is started at 0...
 		int day = this.get(DAY_OF_MONTH);
 		int hour = this.get(HOUR_OF_DAY);
 		int minute = this.get(MINUTE);
 		int second = this.get(SECOND);
 		int millisecond = this.get(MILLISECOND);
-			
-		result = String.format("%04d%02d%02d_%02d%02d_%02d.%03d", 
-				year, month, day,
-				hour, minute, second, millisecond);
-		return result;
+
+		return new int[]{year, month, day, hour, minute, second, millisecond};
 	}
 }

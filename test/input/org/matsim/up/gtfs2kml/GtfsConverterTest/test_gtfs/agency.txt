@@ -1,0 +1,2 @@
+agency_id,agency_name,agency_url,agency_lang,agency_phone,agency_timezone,agency_fare_url
+UP,University of Pretoria,http://www.up.ac.za,en,,Africa/Johannesburg,
