@@ -39,7 +39,7 @@ import org.apache.log4j.Logger;
  */
 public class SouthAfricaPopulationGrowth {
 	private static Map<StudyArea, Map<Integer, Double>> growthMap;
-	private static final String DEFAULT_YEAR = "2019";
+	private static final String DEFAULT_YEAR = "2020";
 	private static final String DEFAULT_AREA = "All";
 
 	/**
@@ -127,6 +127,7 @@ public class SouthAfricaPopulationGrowth {
 		buffaloCityMap.put(2017, 1.00037);
 		buffaloCityMap.put(2018, 1.00205); /* Provincial data, 20180802 */
 		buffaloCityMap.put(2019, 1.00124); /* Provincial data, 20190729 */
+		buffaloCityMap.put(2020, 1.00050); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.BuffaloCity, buffaloCityMap);
 
 		/* City of Cape Town */
@@ -139,6 +140,7 @@ public class SouthAfricaPopulationGrowth {
 		capeTownMap.put(2017, 1.01867);
 		capeTownMap.put(2018, 1.01883); /* Provincial data, 20180802 */
 		capeTownMap.put(2019, 1.01831); /* Provincial data, 20190729 */
+		capeTownMap.put(2020, 1.01839); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.CapeTownFunctional, capeTownMap);
 
 		/* eThekwini */
@@ -151,6 +153,7 @@ public class SouthAfricaPopulationGrowth {
 		eThekwiniMap.put(2017, 1.01118);
 		eThekwiniMap.put(2018, 1.01139); /* Provincial data, 20180802 */
 		eThekwiniMap.put(2019, 1.01138); /* Provincial data, 20190729 */
+		eThekwiniMap.put(2020, 1.01199); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.eThekwini, eThekwiniMap);
 
 		/* Gauteng */
@@ -163,6 +166,7 @@ public class SouthAfricaPopulationGrowth {
 		gautengMap.put(2017, 1.02675);
 		gautengMap.put(2018, 1.02650); /* Provincial data, 20180802 */
 		gautengMap.put(2019, 1.02463); /* Provincial data, 20190729 */
+		gautengMap.put(2020, 1.02352); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.Gauteng, gautengMap);
 
 		/* Mangaung */
@@ -175,6 +179,7 @@ public class SouthAfricaPopulationGrowth {
 		mangaungMap.put(2017, 1.00666);
 		mangaungMap.put(2018, 1.00631); /* Provincial data, 20180802 */
 		mangaungMap.put(2019, 1.00405); /* Provincial data, 20190729 */
+		mangaungMap.put(2020, 1.00512); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.Mangaung, mangaungMap);
 
 		/* Mbombela */
@@ -187,6 +192,7 @@ public class SouthAfricaPopulationGrowth {
 		mbombelaMap.put(2017, 1.01198);
 		mbombelaMap.put(2018, 1.01710); /* Provincial data, 20180802 */
 		mbombelaMap.put(2019, 1.01590); /* Provincial data, 20190729 */
+		mbombelaMap.put(2020, 1.01531); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.Mbombela, mbombelaMap);
 
 		/* Nelson Mandela Bay Metropolitan */
@@ -199,6 +205,7 @@ public class SouthAfricaPopulationGrowth {
 		nmbmMap.put(2017, 1.01009);
 		nmbmMap.put(2018, 1.00205); /* Provincial data, 20180802 */
 		nmbmMap.put(2019, 1.00124); /* Provincial data, 20190729 */
+		nmbmMap.put(2020, 1.00050); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.NelsonMandelaBay, nmbmMap);
 
 		/* Polokwane */
@@ -211,6 +218,7 @@ public class SouthAfricaPopulationGrowth {
 		polokwaneMap.put(2017, 1.00734);
 		polokwaneMap.put(2018, 1.01001); /* Provincial data, 20180802 */
 		polokwaneMap.put(2019, 1.00831); /* Provincial data, 20190729 */
+		polokwaneMap.put(2020, 1.00651); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.Polokwane, polokwaneMap);
 
 		/* Rustenburg */
@@ -223,6 +231,7 @@ public class SouthAfricaPopulationGrowth {
 		rustenburgMap.put(2017, 1.02446);
 		rustenburgMap.put(2018, 1.01744); /* Provincial data, 20180802 */
 		rustenburgMap.put(2019, 1.01626); /* Provincial data, 20190729 */
+		rustenburgMap.put(2020, 1.01678); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.Rustenburg, rustenburgMap);
 	}
 
