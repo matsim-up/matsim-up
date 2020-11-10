@@ -17,44 +17,29 @@
  * *********************************************************************** */
 package org.matsim.up.gtfs2kml;
 
-import de.micromata.opengis.kml.v_2_2_0.*;
 import de.micromata.opengis.kml.v_2_2_0.Point;
-import de.micromata.opengis.kml.v_2_2_0.xal.AddressDetails;
-import net.opengis.kml.v_2_2_0.PointType;
+import de.micromata.opengis.kml.v_2_2_0.*;
 import org.apache.log4j.Logger;
-import org.geoserver.config.GeoServer;
-import org.geoserver.config.impl.GeoServerImpl;
-import org.geoserver.kml.KMLEncoder;
-import org.geoserver.kml.KmlEncodingContext;
-import org.geoserver.wms.WMS;
-import org.geoserver.wms.WMSMapContent;
 import org.geotools.data.DataUtilities;
-import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.feature.DefaultFeatureCollection;
-import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.SchemaException;
 import org.geotools.feature.simple.SimpleFeatureImpl;
-import org.geotools.feature.simple.SimpleFeatureTypeImpl;
 import org.geotools.filter.identity.FeatureIdImpl;
 import org.geotools.kml.KMLConfiguration;
 import org.geotools.kml.v22.KML;
-import org.geotools.ows.bindings.WGS84BoundingBoxTypeBinding;
 import org.geotools.xsd.Encoder;
-import org.geotools.xsd.Parser;
 import org.jdom2.CDATA;
 import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.io.kml.KMLWriter;
 import org.matsim.up.utils.Header;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.identity.FeatureId;
-import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
