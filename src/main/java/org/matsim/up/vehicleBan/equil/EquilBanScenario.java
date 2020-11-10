@@ -47,6 +47,8 @@ import org.matsim.vehicles.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Building an adapted equil network for testing modal ban.
@@ -181,7 +183,9 @@ class EquilBanScenario {
                 sc.getVehicles().addVehicle(vehicle);
 
                 /* Link the vehicle to the person. */
-                VehicleUtils.insertVehicleIdIntoAttributes(person, "car", vehicle.getId());
+                Map<String, Id<Vehicle>> vehicleIdMap = new TreeMap<>();
+                vehicleIdMap.put("car", vehicle.getId());
+                VehicleUtils.insertVehicleIdsIntoAttributes(person, vehicleIdMap);
             }
 
 

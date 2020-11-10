@@ -5,12 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.matsim.up</groupId>
     <artifactId>matsim-up</artifactId>
-    <version>12.0-2020w01-SNAPSHOT</version>
+    <version>13.0-2020w45-SNAPSHOT</version>
     <name>matsim-up</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <matsim.version>12.0-2020w01-SNAPSHOT</matsim.version>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
+        <matsim.version>13.0-2020w45-SNAPSHOT</matsim.version>
     </properties>
 
 

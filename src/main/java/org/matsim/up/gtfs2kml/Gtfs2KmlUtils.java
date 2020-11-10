@@ -36,7 +36,8 @@ public class Gtfs2KmlUtils {
 	static final String FILE_TRIPS = "trips.txt";
 	static final String FILE_OUTPUT = "gtfs.kml";
 
-	static final String URL_BUS_ICON = "https://www.mbus.co.za/media/widgetkit/Metrobus-Header-Icons-5-5e20db1a8062f871efe19de79fade529.png";
+//	static final String URL_BUS_ICON = "https://www.mbus.co.za/media/widgetkit/Metrobus-Header-Icons-5-5e20db1a8062f871efe19de79fade529.png";
+	static final String URL_BUS_ICON = "http://ie-gtfs.up.ac.za/busIcon.png";
 
 
 	static final String FIELD_CALENDAR_MON = "monday";
