@@ -23,7 +23,7 @@ and the depency on `matsim-up`
 	<dependency>
   		<groupId>org.matsim.up</groupId>
   		<artifactId>matsim-up</artifactId>
-  		<version>13.0-2020w45-SNAPSHOT</version>
+  		<version>13.0-2021w03-SNAPSHOT</version>
 	</dependency>
 </dependencies>
 ```
