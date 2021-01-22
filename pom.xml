@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.matsim.up</groupId>
     <artifactId>matsim-up</artifactId>
-    <version>13.0-2020w45-SNAPSHOT</version>
+    <version>13.0-2021w03-SNAPSHOT</version>
     <name>matsim-up</name>
 
     <properties>
@@ -14,7 +14,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <matsim.version>13.0-2020w45-SNAPSHOT</matsim.version>
+        <matsim.version>13.0-2021w03-SNAPSHOT</matsim.version>
     </properties>
 
 
@@ -77,7 +77,7 @@
         <dependency>
             <groupId>org.matsim</groupId>
             <artifactId>matsim-examples</artifactId>
-            <version>0.11.0-SNAPSHOT</version>
+            <version>12.0</version>
             <!--(not in weekly release!)-->
         </dependency>
 
