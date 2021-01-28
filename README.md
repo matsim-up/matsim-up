@@ -3,7 +3,7 @@
 
 
 # matsim-up
-Some general classes, utilities and associated tests frequently used by the MATSim team at the University of Pretoria. This repository is essentially based on the [matsim-example-project](https://github.com/matsim-org/matsim-example-project). Continuous integration (CI) is done on [Travis-CI](https://travis-ci.com/matsim-up/matsim-up) and (snapshot) jars are deployed to [packagecloud](https://packagecloud.io/matsim-up/matsim-up).
+Some general classes, utilities and associated tests frequently used by the MATSim team at the University of Pretoria. This repository is essentially based on the [matsim-example-project](https://github.com/matsim-org/matsim-example-project). Continuous integration (CI) is done on [Travis-CI](https://travis-ci.com/matsim-up/matsim-up) and (snapshot) jars are deployed to [PackageCloud](https://packagecloud.io/matsim-up/matsim-up).
 
 ## Usage
 
