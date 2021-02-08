@@ -5,6 +5,8 @@ import org.matsim.api.core.v01.Coord;
 import org.matsim.utils.objectattributes.AttributeConverter;
 import org.matsim.utils.objectattributes.attributeconverters.CoordConverter;
 
+import java.util.Locale;
+
 /**
  * This class is an alternative for the built-in attribute converter 
  * {@link CoordConverter}, but differs in that it rounds the x and y-values
@@ -33,7 +35,7 @@ public class Wgs84CoordConverter implements AttributeConverter<Coord> {
 		}
 		Coord c = (Coord)o;
 		
-		return String.format("(%.6f;%.6f)", c.getX(), c.getY());
+		return String.format(Locale.US, "(%.6f;%.6f)", c.getX(), c.getY());
 	}
 
 }
