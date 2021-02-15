@@ -124,12 +124,6 @@
             <version>1.2.0</version>
         </dependency>
 
-        <!-- Needed for visualising the GeneralGrid -->
-        <dependency>
-            <groupId>org.jzy3d</groupId>
-            <artifactId>jzy3d-api</artifactId>
-            <version>1.0.2</version>
-        </dependency>
 
         <!-- Needed for handling SRTM files -->
         <dependency>
@@ -154,13 +148,32 @@
         <dependency>
             <groupId>org.geotools.xsd</groupId>
             <artifactId>gt-xsd-kml</artifactId>
-            <version>23.0</version>
+            <!--            <version>23.0</version>-->
+            <version>21.5</version>
         </dependency>
         <dependency>
             <groupId>de.micromata.jak</groupId>
             <artifactId>JavaAPIforKml</artifactId>
             <version>2.2.1</version>
         </dependency>
+
+        <!-- Needed for visualising the GeneralGrid -->
+        <dependency>
+            <groupId>org.jzy3d</groupId>
+            <artifactId>jzy3d-api</artifactId>
+            <version>1.0.3</version>
+            <scope>compile</scope>
+            <!-- The version used by jzy3d is 3.1 and this is "closer" than the
+            (required) of 3.8 by geotools. The minimum required to overcome the
+            JAVA_9 field error is 3.5 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-lang3</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     </dependencies>
 
     <distributionManagement>

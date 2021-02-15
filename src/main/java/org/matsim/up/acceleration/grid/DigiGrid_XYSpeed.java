@@ -41,7 +41,7 @@ public class DigiGrid_XYSpeed  extends DigiGrid3D {
 	final private Logger LOG = Logger.getLogger(DigiGrid_XYSpeed.class);
 	private double speed_multiplier = 2.5;
 
-	
+
 	public DigiGrid_XYSpeed(final double scale) {
 		super(scale);
 	}

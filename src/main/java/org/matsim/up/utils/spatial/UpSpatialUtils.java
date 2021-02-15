@@ -18,6 +18,7 @@
 package org.matsim.up.utils.spatial;
 
 import org.apache.log4j.Logger;
+import org.geotools.data.shapefile.index.quadtree.QuadTree;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -25,6 +26,9 @@ import org.locationtech.jts.geom.Point;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.core.gbl.MatsimRandom;
 import org.matsim.core.utils.geometry.CoordUtils;
+import org.opengis.feature.simple.SimpleFeature;
+
+import java.util.Collection;
 
 /**
  * Various spatial utilities used in the University of Pretoria (UP) code.
@@ -58,6 +62,35 @@ public class UpSpatialUtils {
 			}
 		}
 		return CoordUtils.createCoord(p.getX(), p.getY());
+	}
+
+	/**
+	 * A reusable method to calculate the extent of a collection of geometry
+	 * features. This is useful for {@link QuadTree}s, for example.
+	 *
+	 * @param features the collection of features.
+	 * @return the extent of the collection, given in the format [minX, minY, maxX, maxY]
+	 */
+	public static double[] getQuadTreeExtentFromFeatures(Collection<SimpleFeature> features){
+		double minX = Double.POSITIVE_INFINITY;
+		double maxX = Double.NEGATIVE_INFINITY;
+		double minY = Double.POSITIVE_INFINITY;
+		double maxY = Double.NEGATIVE_INFINITY;
+
+		for (SimpleFeature feature : features) {
+			Object o = feature.getDefaultGeometry();
+			if (o instanceof Geometry) {
+				Geometry g = (Geometry) o;
+				Coordinate[] envelope = g.getEnvelope().getCoordinates();
+				minX = Math.min(minX, envelope[0].x);
+				maxX = Math.max(maxX, envelope[2].x);
+				minY = Math.min(minY, envelope[0].y);
+				maxY = Math.max(maxY, envelope[2].y);
+			} else {
+				LOG.warn("SimpleFeature not of type 'MultiPolygon', but " + o.getClass().toString() + ". Ignoring");
+			}
+		}
+		return new double[]{minX, minY, maxX, maxY};
 	}
 
 }
