@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.matsim.up</groupId>
     <artifactId>matsim-up</artifactId>
-    <version>13.0-2021w08-SNAPSHOT</version>
+    <version>13.0</version>
     <name>matsim-up</name>
 
     <properties>
@@ -14,27 +14,15 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <matsim.version>13.0-2021w08-SNAPSHOT</matsim.version>
+        <matsim.version>13.0</matsim.version>
     </properties>
 
 
     <repositories>
-        <!-- Repository for MATSim releases (MATSim is not on Maven central) -->
         <repository>
+            <!-- Repository for MATSim (MATSim is not on Maven central, releases and snapshots) -->
             <id>matsim</id>
-            <url>https://dl.bintray.com/matsim/matsim</url>
-        </repository>
-        <!-- Repository for MATSim snapshots (in case someone wants to switch to
-            snapshot versions) -->
-        <repository>
-            <id>ojo-snapshots</id>
-            <url>http://oss.jfrog.org/libs-snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
+            <url>https://repo.matsim.org/repository/matsim</url>
         </repository>
         <repository>
             <!-- Geotools is not on Maven central -->
@@ -88,7 +76,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.1</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Jung for complex networks and graphs in general -->
@@ -142,19 +130,6 @@
             <groupId>com.graphhopper</groupId>
             <artifactId>graphhopper-core</artifactId>
             <version>0.12.0-pre1</version>
-        </dependency>
-
-        <!-- Working with KML data. -->
-        <dependency>
-            <groupId>org.geotools.xsd</groupId>
-            <artifactId>gt-xsd-kml</artifactId>
-            <!--            <version>23.0</version>-->
-            <version>21.5</version>
-        </dependency>
-        <dependency>
-            <groupId>de.micromata.jak</groupId>
-            <artifactId>JavaAPIforKml</artifactId>
-            <version>2.2.1</version>
         </dependency>
 
         <!-- Needed for visualising the GeneralGrid -->
