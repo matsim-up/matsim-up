@@ -38,7 +38,7 @@
         </repository>
         <!-- Network visualisation -->
         <repository>
-            <id>jzy3d-api</id>
+            <id>jzy3d-releases</id>
             <name>Jzy3d Releases</name>
             <url>http://maven.jzy3d.org/releases</url>
         </repository>
