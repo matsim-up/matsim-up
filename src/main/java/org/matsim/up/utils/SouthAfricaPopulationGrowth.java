@@ -70,7 +70,7 @@ public class SouthAfricaPopulationGrowth {
 			StudyArea area = StudyArea.valueOf(args[1]);
 			String growth = String.format("Cumulative growth for the period 2011-%d for '%s': %.5f",
 					year,
-					area.toString(),
+					area,
 					SouthAfricaPopulationGrowth.getGrowthFactor(area, year));
 			Logger.getLogger(SouthAfricaPopulationGrowth.class).info(growth);
 		}
@@ -195,6 +195,19 @@ public class SouthAfricaPopulationGrowth {
 		mbombelaMap.put(2020, 1.01531); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.Mbombela, mbombelaMap);
 
+		/* Namakwa (Northern Cape) including Calvinia */
+		Map<Integer, Double> hantamMap = new TreeMap<>();
+		hantamMap.put(2012, 0.99875);
+		hantamMap.put(2013, 0.99854);
+		hantamMap.put(2014, 0.99856);
+		hantamMap.put(2015, 0.99833);
+		hantamMap.put(2016, 0.99825);
+		hantamMap.put(2017, 1.00173);
+		hantamMap.put(2018, 1.00210);
+		hantamMap.put(2019, 1.00215);
+		hantamMap.put(2020, 1.00209);
+		growthMap.put(StudyArea.Namakwa, hantamMap);
+
 		/* Nelson Mandela Bay Metropolitan */
 		Map<Integer, Double> nmbmMap = new TreeMap<>();
 		nmbmMap.put(2012, 1.00893);
@@ -233,12 +246,25 @@ public class SouthAfricaPopulationGrowth {
 		rustenburgMap.put(2019, 1.01626); /* Provincial data, 20190729 */
 		rustenburgMap.put(2020, 1.01678); /* Provincial data, 20200709 */
 		growthMap.put(StudyArea.Rustenburg, rustenburgMap);
+
+		/* Xariep (Free State) including Philipolis */
+		Map<Integer, Double> xariepMap = new TreeMap<>();
+		xariepMap.put(2012, 1.00326);
+		xariepMap.put(2013, 1.00354);
+		xariepMap.put(2014, 1.00384);
+		xariepMap.put(2015, 1.00388);
+		xariepMap.put(2016, 1.00387);
+		xariepMap.put(2017, 1.00550);
+		xariepMap.put(2018, 1.00544);
+		xariepMap.put(2019, 1.00523);
+		xariepMap.put(2020, 1.00445);
+		growthMap.put(StudyArea.Xariep, xariepMap);
 	}
 
 
 	public enum StudyArea {
 		BuffaloCity, CapeTownFunctional, eThekwini, Gauteng, Mangaung, Mbombela, NelsonMandelaBay,
-		Polokwane, Rustenburg
+		Polokwane, Rustenburg, Xariep, Namakwa
 	}
 
 }
