@@ -1,4 +1,4 @@
-[![Travis Build Status](https://travis-ci.com/matsim-up/matsim-up.svg?branch=master)](https://travis-ci.com/matsim-up/matsim-up)
+[![Build Status](https://app.travis-ci.com/matsim-up/matsim-up.svg?branch=master)](https://app.travis-ci.com/matsim-up/matsim-up)
 [![Packagecloud Repository](https://img.shields.io/badge/java-packagecloud.io-844fec.svg)](https://packagecloud.io/matsim-up/matsim-up/)
 
 
