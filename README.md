@@ -23,10 +23,10 @@ and the depency on `matsim-up`
 	<dependency>
   		<groupId>org.matsim.up</groupId>
   		<artifactId>matsim-up</artifactId>
-  		<version>14.0-PR1680</version>
+  		<version>14.0-PR1680-SNAPSHOT</version>
 	</dependency>
 </dependencies>
 ```
-where the version is indicative of the specific 
+where the (pull request) version is indicative of the specific 
 [`matsim`](https://github.com/matsim-org/matsim-libs) 
 version that this repository is compatible with.
