@@ -14,7 +14,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <matsim.version>14.0-PR1618</matsim.version>
+        <matsim.version>14.0-PR1680</matsim.version>
     </properties>
 
     <repositories>
