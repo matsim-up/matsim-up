@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.matsim.up</groupId>
     <artifactId>matsim-up</artifactId>
-    <version>14.0-PR1680-SNAPSHOT</version>
+    <version>14.0-PR1720-SNAPSHOT</version>
     <name>matsim-up</name>
 
     <properties>
@@ -14,7 +14,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <matsim.version>14.0-PR1680</matsim.version>
+        <matsim.version>14.0-PR1720</matsim.version>
     </properties>
 
     <repositories>
@@ -80,30 +80,30 @@
 
         <!-- Jung for complex networks and graphs in general -->
         <dependency>
-            <groupId>net.sf.jung</groupId>
+            <groupId>io.github.devlibx.jung</groupId>
             <artifactId>jung-api</artifactId>
-            <version>2.1.1</version>
+            <version>3.1</version>
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>net.sf.jung</groupId>
+            <groupId>io.github.devlibx.jung</groupId>
             <artifactId>jung-graph-impl</artifactId>
-            <version>2.1.1</version>
+            <version>3.1</version>
         </dependency>
         <dependency>
-            <groupId>net.sf.jung</groupId>
+            <groupId>io.github.devlibx.jung</groupId>
             <artifactId>jung-io</artifactId>
-            <version>2.1.1</version>
+            <version>3.1</version>
         </dependency>
         <dependency>
-            <groupId>net.sf.jung</groupId>
+            <groupId>io.github.devlibx.jung</groupId>
             <artifactId>jung-algorithms</artifactId>
-            <version>2.1.1</version>
+            <version>3.1</version>
         </dependency>
         <dependency>
-            <groupId>net.sf.jung</groupId>
+            <groupId>io.github.devlibx.jung</groupId>
             <artifactId>jung-visualization</artifactId>
-            <version>2.1.1</version>
+            <version>3.1</version>
         </dependency>
         <dependency>
             <groupId>colt</groupId>
@@ -116,19 +116,19 @@
         <dependency>
             <groupId>de.grundid.osmtools</groupId>
             <artifactId>osm-tools-process</artifactId>
-            <version>1.1.1</version>
+            <version>1.2.2</version>
         </dependency>
 
         <!-- Needed for Graphhopper map matching -->
         <dependency>
             <groupId>com.graphhopper</groupId>
-            <artifactId>graphhopper-map-matching-core</artifactId>
-            <version>0.11.0-4</version>
+            <artifactId>graphhopper-map-matching</artifactId>
+            <version>4.0-pre2</version>
         </dependency>
         <dependency>
             <groupId>com.graphhopper</groupId>
             <artifactId>graphhopper-core</artifactId>
-            <version>0.12.0-pre1</version>
+            <version>4.0-pre2</version>
         </dependency>
 
         <!-- Needed for visualising the GeneralGrid -->
