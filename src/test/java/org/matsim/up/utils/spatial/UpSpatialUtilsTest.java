@@ -63,7 +63,23 @@ public class UpSpatialUtilsTest {
 
 	private Collection<SimpleFeature> readSimpleFeatures(){
 		String test = utils.getClassInputDirectory() + "TestDiamond.shp";
-		Collection<SimpleFeature> features = ShapeFileReader.getAllFeatures(test);
-		return features;
+		return ShapeFileReader.getAllFeatures(test);
 	}
+
+	/**
+	 * Test the shapefiles.
+	 */
+	@Test
+	public void getShapefileFeatures(){
+		Collection<SimpleFeature> features = null;
+		try{
+			features = UpSpatialUtils.getShapefileFeatures(UpShapefiles.CAPETOWN_FUNCTIONAL_WGS84);
+		} catch(Exception e){
+			e.printStackTrace();
+			Assert.fail("Should read shapefile from URL without exception.");
+		}
+		Assert.assertNotNull("Collection should not be null", features);
+	}
+
+
 }
