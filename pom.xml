@@ -123,11 +123,11 @@
 
     <distributionManagement>
         <repository>
-            <id>packagecloud-matsim-jwj</id>
+            <id>packagecloud-matsim-up</id>
             <url>packagecloud+https://packagecloud.io/matsim-up/matsim-up</url>
         </repository>
         <snapshotRepository>
-            <id>packagecloud-matsim-jwj</id>
+            <id>packagecloud-matsim-up</id>
             <url>packagecloud+https://packagecloud.io/matsim-up/matsim-up</url>
         </snapshotRepository>
     </distributionManagement>
