@@ -23,6 +23,10 @@ package org.matsim.up.utils;
 /**
  * Generating random variables from different distributions.
  *
+ * TODO This might be replaced with an impolementation from the
+ *  <a href=https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/index.html><code>org.apache.commons.math3.distribution</code></a>
+ *  library.
+ *
  * @author jwjoubert
  */
 public class RandomVariateGenerator {
