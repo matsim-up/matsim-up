@@ -1,5 +1,5 @@
-[![Build Status](https://app.travis-ci.com/matsim-jwj/matsim-up.svg?branch=master)](https://app.travis-ci.com/matsim-jwj/matsim-up)
-[![Packagecloud Repository](https://img.shields.io/badge/java-packagecloud.io-844fec.svg)](https://packagecloud.io/matsim-jwj/matsim-up/)
+[![Build Status](https://app.travis-ci.com/matsim-up/matsim-up.svg?branch=master)](https://app.travis-ci.com/matsim-up/matsim-up)
+[![Packagecloud Repository](https://img.shields.io/badge/java-packagecloud.io-844fec.svg)](https://packagecloud.io/matsim-up/matsim-up/)
 
 
 # matsim-up
@@ -13,7 +13,7 @@ To use `matsim-up` as a dependency in an external maven project, update the exte
 <repositories>
 	<repository>
 		<id>matsim-up-matsim-up</id>
-		<url>https://packagecloud.io/matsim-jwj/matsim-up/maven2</url>
+		<url>https://packagecloud.io/matsim-up/matsim-up/maven2</url>
 	</repository>
 </repositories>
 ```
