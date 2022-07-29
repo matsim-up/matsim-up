@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.matsim.up</groupId>
     <artifactId>matsim-up</artifactId>
-    <version>15.0-PR2043</version>
+    <version>15.0-2022w30</version>
     <name>matsim-up</name>
 
     <properties>
