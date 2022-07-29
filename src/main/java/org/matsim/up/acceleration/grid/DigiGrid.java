@@ -20,21 +20,20 @@
 
 package org.matsim.up.acceleration.grid;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.jzy3d.colors.Color;
 
 public abstract class DigiGrid {
 	final Logger LOG = Logger.getLogger(DigiGrid.class);
 
 	/* Specify colours */
-	final static Color DIGI_GREEN = new Color(147, 214, 83, 255);
-	final static Color DIGI_YELLOW = new Color(248, 215, 85, 255);
-	final static Color DIGI_ORANGE = new Color(250, 164, 54, 255);
-	final static Color DIGI_RED = new Color(246, 43, 32, 255);
-	final static Color DIGI_GRAY = new Color(100, 100, 100, 255);
+//	final static Color DIGI_GREEN = new Color(147, 214, 83, 255);
+//	final static Color DIGI_YELLOW = new Color(248, 215, 85, 255);
+//	final static Color DIGI_ORANGE = new Color(250, 164, 54, 255);
+//	final static Color DIGI_RED = new Color(246, 43, 32, 255);
+//	final static Color DIGI_GRAY = new Color(100, 100, 100, 255);
 
 
 	private List<Double> riskThresholds = new ArrayList<>();

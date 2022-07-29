@@ -180,7 +180,7 @@ public abstract class DigiGrid3D extends AbstractAnalysis{
 				int zoneIndex = 0;
 				while(ratingZone == null && zoneIndex < this.riskThresholds.size()){
 					if(cumulative <= this.riskThresholds.get(zoneIndex)){
-						ratingZone = new Integer(zoneIndex);
+						ratingZone = zoneIndex;
 					} else{
 						zoneIndex++;
 					}
