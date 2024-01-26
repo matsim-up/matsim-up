@@ -3,7 +3,7 @@
 
 
 # matsim-up
-Some general classes, utilities and associated tests frequently used by the MATSim team at the University of Pretoria. This repository is essentially based on the [matsim-example-project](https://github.com/matsim-org/matsim-example-project). Continuous integration (CI) is done on [Travis-CI](https://travis-ci.com/matsim-up/matsim-up) and (snapshot) jars are deployed to [PackageCloud](https://packagecloud.io/matsim-up/matsim-up).
+Some general classes, utilities and associated tests that are frequently used by the MATSim team at the University of Pretoria. This repository is essentially based on the [matsim-example-project](https://github.com/matsim-org/matsim-example-project). Continuous integration (CI) is done on [Travis-CI](https://travis-ci.com/matsim-up/matsim-up) and (snapshot) jars are deployed to [PackageCloud](https://packagecloud.io/matsim-up/matsim-up).
 
 ## Usage
 
@@ -17,13 +17,13 @@ To use `matsim-up` as a dependency in an external maven project, update the exte
 	</repository>
 </repositories>
 ```
-and the depency on `matsim-up`
+and the dependency on `matsim-up`
 ```
 <dependencies>
 	<dependency>
   		<groupId>org.matsim.up</groupId>
   		<artifactId>matsim-up</artifactId>
-  		<version>15.0-2022w48</version>
+  		<version>16.0-2024w04</version>
 	</dependency>
 </dependencies>
 ```

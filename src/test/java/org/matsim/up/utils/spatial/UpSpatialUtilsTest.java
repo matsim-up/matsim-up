@@ -1,8 +1,8 @@
 package org.matsim.up.utils.spatial;
 
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.locationtech.jts.geom.*;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.core.utils.gis.ShapeFileReader;
@@ -13,9 +13,8 @@ import java.util.Collection;
 
 public class UpSpatialUtilsTest {
 
-	@Rule
+	@RegisterExtension
 	public MatsimTestUtils utils = new MatsimTestUtils();
-
 
 	@Test
 	public void findRandomInternalCoord() {

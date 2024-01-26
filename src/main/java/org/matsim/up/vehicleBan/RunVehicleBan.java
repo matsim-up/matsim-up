@@ -43,8 +43,8 @@ public class RunVehicleBan {
 
         controler.addOverridingModule(module);
 
-        controler.getConfig().controler().setOverwriteFileSetting(OutputDirectoryHierarchy.OverwriteFileSetting.deleteDirectoryIfExists);
-        controler.getConfig().controler().setLastIteration(2);
+        controler.getConfig().controller().setOverwriteFileSetting(OutputDirectoryHierarchy.OverwriteFileSetting.deleteDirectoryIfExists);
+        controler.getConfig().controller().setLastIteration(2);
         controler.run();
 
         Header.printFooter();

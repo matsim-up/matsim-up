@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.matsim.up</groupId>
     <artifactId>matsim-up</artifactId>
-    <version>15.0-2022w48</version>
+    <version>16.0-2024w04</version>
     <name>matsim-up</name>
 
     <properties>
@@ -14,7 +14,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <matsim.version>15.0-2022w48</matsim.version>
+        <matsim.version>16.0-2024w04</matsim.version>
+        <junit.version>5.10.1</junit.version>
     </properties>
 
     <repositories>
@@ -70,10 +71,16 @@
 
         <!-- Include the JUnit testing library -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>compile</scope>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>

@@ -20,11 +20,12 @@
 
 package org.matsim.up.utils;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.matsim.core.gbl.Gbl;
 
 public class Header {
-    private final static Logger LOG = Logger.getLogger(Header.class);
+    private final static Logger LOG = LogManager.getLogger(Header.class);
     private static int length = 10;
 
     public static void printHeader(Class<?> theClass, String[] args) {
@@ -47,23 +48,14 @@ public class Header {
     }
 
     public static void printFooter() {
-
         Gbl.printElapsedTime();
         LOG.info(getLineString("-", length));
-        String s = "";
-        for (int i = 0; i < length / 2 - 2; i++) {
-            s += " ";
-        }
-        LOG.info(s + "Done");
+        LOG.info(" ".repeat(Math.max(0, length / 2 - 2)) + "Done");
         LOG.info(getLineString("=", length));
     }
 
     private static String getLineString(String string, int length) {
-        String s = "";
-        for (int i = 0; i <= length; i++) {
-            s += string;
-        }
-        return s;
+        return String.valueOf(string).repeat(Math.max(0, length + 1));
     }
 }
 

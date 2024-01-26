@@ -114,7 +114,7 @@ public class DigiGrid_XYSpeed  extends DigiGrid3D {
 		for(GridPoint gp : ga){
 			Coord3d c = new Coord3d(gp.getX(), gp.getY(), gp.getZ());
 			ot.put(gp.getX(), gp.getY(), gp.getZ(), c);
-			map.put(c, new Double(0.0));
+			map.put(c, 0.0);
 			centroidCounter.incCounter();
 		}
 		centroidCounter.printCounter();

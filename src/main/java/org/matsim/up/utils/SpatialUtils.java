@@ -43,9 +43,8 @@ public class SpatialUtils {
 			throw new RuntimeException("Cannot find an interior point for a 'null' geometry.");
 		}
 		Point p = sampleRandomInteriorPoint(g);
-		Coord c = CoordUtils.createCoord(p.getX(), p.getY());
-		
-		return c;
+
+		return CoordUtils.createCoord(p.getX(), p.getY());
 	}
 	
 	public static Point sampleRandomInteriorPoint(Geometry g) {

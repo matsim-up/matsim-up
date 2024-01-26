@@ -21,8 +21,8 @@
 package org.matsim.up.utils;
 
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.*;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.core.gbl.MatsimRandom;
@@ -34,8 +34,8 @@ public class SpatialUtilsTest {
 	public void testSampleRandomInteriorPoint() {
 		MatsimRandom.reset(12345);
 		Point p = SpatialUtils.sampleRandomInteriorPoint(buildSquare());
-		Assert.assertEquals("Wrong x-coordinate", 36.1803107, p.getX(), 1e-6);
-		Assert.assertEquals("Wrong y-coordinate", 93.2993485, p.getY(), 1e-6);
+		Assertions.assertEquals(36.1803107, p.getX(), 1e-6, "Wrong x-coordinate");
+		Assertions.assertEquals(93.2993485, p.getY(), 1e-6, "Wrong y-coordinate");
 	}
 	
 	
@@ -43,8 +43,8 @@ public class SpatialUtilsTest {
 	public void testSampleRandomInteriorCoord() {
 		MatsimRandom.reset(12345);
 		Coord c = SpatialUtils.sampleRandomInteriorCoord(buildSquare());
-		Assert.assertEquals("Wrong x-coordinate", 36.1803107, c.getX(), 1e-6);
-		Assert.assertEquals("Wrong y-coordinate", 93.2993485, c.getY(), 1e-6);
+		Assertions.assertEquals(36.1803107, c.getX(), 1e-6, "Wrong x-coordinate");
+		Assertions.assertEquals(93.2993485, c.getY(), 1e-6, "Wrong y-coordinate");
 	}
 	
 	
@@ -54,8 +54,7 @@ public class SpatialUtilsTest {
 		Coordinate c3 = new Coordinate(100.0, 100.0);
 		Coordinate c4 = new Coordinate(0.0, 100.0);
 		Coordinate[] ca = {c1, c2, c3, c4, c1};
-		Polygon p = new GeometryFactory().createPolygon(ca);
-		return p;
+		return new GeometryFactory().createPolygon(ca);
 	}
 
 }

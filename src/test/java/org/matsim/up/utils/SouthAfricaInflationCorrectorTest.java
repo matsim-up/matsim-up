@@ -1,7 +1,7 @@
 package org.matsim.up.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SouthAfricaInflationCorrectorTest {
 
@@ -10,12 +10,12 @@ public class SouthAfricaInflationCorrectorTest {
 		/* Longitudinal conversion. */
 		double start = 1.0;
 		double end = SouthAfricaInflationCorrector.convert(start, 1981, 2019);
-		Assert.assertEquals("Wrong conversion.", 22.815, end, 0.0001);
+		Assertions.assertEquals(22.815, end, 0.0001, "Wrong conversion.");
 
 		/* From-year not available. */
 		try{
 			SouthAfricaInflationCorrector.convert(start, 1980, 1990);
-			Assert.fail("Should not have years before 1981.");
+			Assertions.fail("Should not have years before 1981.");
 		} catch(IllegalArgumentException e){
 			e.printStackTrace();
 		}
@@ -23,13 +23,13 @@ public class SouthAfricaInflationCorrectorTest {
 		/* To-year not available. */
 		try{
 			SouthAfricaInflationCorrector.convert(start, 2000, 2100);
-			Assert.fail("Should not have years so far in the future.");
+			Assertions.fail("Should not have years so far in the future.");
 		} catch(IllegalArgumentException e){
 			e.printStackTrace();
 		}
 
 		/* Identity. */
-		Assert.assertEquals("Should return identity.", 1000.0, SouthAfricaInflationCorrector.convert(1000.0, 2019, 2019), 0.0001);
+		Assertions.assertEquals(1000.0, SouthAfricaInflationCorrector.convert(1000.0, 2019, 2019), 0.0001, "Should return identity.");
 	}
 
 }

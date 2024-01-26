@@ -27,7 +27,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.locationtech.jts.geom.*;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.core.utils.collections.QuadTree;
@@ -48,7 +49,7 @@ import org.opengis.feature.simple.SimpleFeature;
  * @author jwjoubert
  */
 public class GeneralGrid{
-	private final static Logger LOG = Logger.getLogger(GeneralGrid.class);
+	private final static Logger LOG = LogManager.getLogger(GeneralGrid.class);
 
 	private Geometry geometry;
 	private QuadTree<Point> qt;
@@ -59,7 +60,7 @@ public class GeneralGrid{
 
 	/* For caching purposes, create the grid cell geometry once, and return the 
 	 * cached geometry subsequently. */
-	private Map<Point, Geometry> geometryCache = new HashMap<Point, Geometry>();
+	private final Map<Point, Geometry> geometryCache = new HashMap<Point, Geometry>();
 
 
 	/**

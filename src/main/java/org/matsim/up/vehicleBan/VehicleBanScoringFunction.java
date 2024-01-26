@@ -46,7 +46,7 @@ final class VehicleBanScoringFunction implements BasicScoring {
         if (o != null) {
             boolean fined = (boolean) o;
             if (fined) {
-                return -fineWhenCaught * sc.getConfig().planCalcScore().getMarginalUtilityOfMoney();
+                return -fineWhenCaught * sc.getConfig().scoring().getMarginalUtilityOfMoney();
             }
         }
 

@@ -1,37 +1,35 @@
 package org.matsim.up.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.TimeZone;
-
-import static org.junit.Assert.*;
 
 public class DateStringTest {
 
 	@Test
 	public void toPrettyString() {
 		DateString ds = createDateString();
-		Assert.assertEquals("Wrong pretty string.", "1975/09/18 12:00:00", ds.toPrettyString());
+		Assertions.assertEquals("1975/09/18 12:00:00", ds.toPrettyString(), "Wrong pretty string.");
 	}
 
 	@Test
 	public void testToString() {
 		DateString ds = createDateString();
-		Assert.assertEquals("Wrong string.", "19750918120000.000", ds.toString());
+		Assertions.assertEquals("19750918120000.000", ds.toString(), "Wrong string.");
 	}
 
 	@Test
 	public void getDateFields() {
 		DateString ds = createDateString();
-		Assert.assertEquals("Wrong number of fields.", 7, ds.getDateFields().length);
-		Assert.assertEquals("Wrong year", 1975, ds.getDateFields()[0]);
-		Assert.assertEquals("Wrong month", 9, ds.getDateFields()[1]);
-		Assert.assertEquals("Wrong day", 18, ds.getDateFields()[2]);
-		Assert.assertEquals("Wrong hours", 12, ds.getDateFields()[3]);
-		Assert.assertEquals("Wrong minutes", 0, ds.getDateFields()[4]);
-		Assert.assertEquals("Wrong seconds", 0, ds.getDateFields()[5]);
-		Assert.assertEquals("Wrong millisecond", 0, ds.getDateFields()[6]);
+		Assertions.assertEquals(7, ds.getDateFields().length, "Wrong number of fields.");
+		Assertions.assertEquals(1975, ds.getDateFields()[0], "Wrong year");
+		Assertions.assertEquals(9, ds.getDateFields()[1], "Wrong month");
+		Assertions.assertEquals(18, ds.getDateFields()[2], "Wrong day");
+		Assertions.assertEquals(12, ds.getDateFields()[3], "Wrong hours");
+		Assertions.assertEquals(0, ds.getDateFields()[4], "Wrong minutes");
+		Assertions.assertEquals(0, ds.getDateFields()[5], "Wrong seconds");
+		Assertions.assertEquals(0, ds.getDateFields()[6], "Wrong millisecond");
 	}
 
 	private DateString createDateString(){

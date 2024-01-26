@@ -1,7 +1,7 @@
 package org.matsim.up.vehicleBan;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.population.Plan;
@@ -16,7 +16,7 @@ public class VehicleBanCheckerTest {
         try {
             VehicleBanChecker checker = buildVehicleBanChecker();
         } catch (Exception e) {
-            Assert.fail("Should build the VehicleBanChecker without exception.");
+            Assertions.fail("Should build the VehicleBanChecker without exception.");
         }
     }
 
@@ -31,16 +31,16 @@ public class VehicleBanCheckerTest {
         double bannedTime = Time.parseTime("07:00:00");
         double NonBannedTime = Time.parseTime("09:00:00");
 
-        Assert.assertTrue("Vehicle should be banned.", checker.isBannedVehicle(bannedVehicleId));
-        Assert.assertFalse("Vehicle should not be banned.", checker.isBannedVehicle(NonBannedVehicleId));
+        Assertions.assertTrue(checker.isBannedVehicle(bannedVehicleId), "Vehicle should be banned.");
+        Assertions.assertFalse(checker.isBannedVehicle(NonBannedVehicleId), "Vehicle should not be banned.");
 
-        Assert.assertTrue("Link should be banned.", checker.isBannedLink(bannedLink));
-        Assert.assertFalse("Link should not be banned.", checker.isBannedLink(NonBannedLink));
+        Assertions.assertTrue(checker.isBannedLink(bannedLink), "Link should be banned.");
+        Assertions.assertFalse(checker.isBannedLink(NonBannedLink), "Link should not be banned.");
 
-        Assert.assertTrue("Time should be banned", checker.isBannedTime(bannedTime));
-        Assert.assertFalse("Time should not be banned", checker.isBannedTime(NonBannedTime));
+        Assertions.assertTrue(checker.isBannedTime(bannedTime), "Time should be banned");
+        Assertions.assertFalse(checker.isBannedTime(NonBannedTime), "Time should not be banned");
 
-        Assert.assertTrue("Should be banned", checker.isBanned(bannedVehicleId, bannedLink, bannedTime));
+        Assertions.assertTrue(checker.isBanned(bannedVehicleId, bannedLink, bannedTime), "Should be banned");
     }
 
 

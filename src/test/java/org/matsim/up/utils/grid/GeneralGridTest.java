@@ -19,9 +19,9 @@
 
 package org.matsim.up.utils.grid;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.locationtech.jts.geom.*;
 import org.matsim.core.utils.collections.QuadTree;
 import org.matsim.testcases.MatsimTestUtils;
@@ -31,16 +31,17 @@ import java.io.File;
 
 
 public class GeneralGridTest {
-	@Rule public MatsimTestUtils utils = new MatsimTestUtils();
+	@RegisterExtension
+	public MatsimTestUtils utils = new MatsimTestUtils();
 	
 	@Test
 	public void testConstructor(){
 		GeneralGrid g1 = new GeneralGrid(10, GridType.SQUARE);
-		Assert.assertTrue("Wrong grid type.", g1.getGridType() == GridType.SQUARE);
+		Assertions.assertSame(g1.getGridType(), GridType.SQUARE, "Wrong grid type.");
 		GeneralGrid g2 = new GeneralGrid(10, GridType.HEX);
-		Assert.assertTrue("Wrong grid type.", g2.getGridType() == GridType.HEX);
+		Assertions.assertSame(g2.getGridType(), GridType.HEX, "Wrong grid type.");
 		GeneralGrid g3 = new GeneralGrid(10, GridType.UNKNOWN);
-		Assert.assertTrue("Wrong grid type.", g3.getGridType() == GridType.UNKNOWN);
+		Assertions.assertSame(g3.getGridType(), GridType.UNKNOWN, "Wrong grid type.");
 	}
 	
 	@Test
@@ -50,14 +51,14 @@ public class GeneralGridTest {
 		g1.generateGrid(p);
 		
 		QuadTree<Point> qt1 = g1.getGrid();
-		Assert.assertEquals("Wrong number of cells.", 121, qt1.size());
+		Assertions.assertEquals(121, qt1.size(), "Wrong number of cells.");
 		
 		/* Cell at (0,0) */
 		Point p1 = p.getFactory().createPoint(new Coordinate(0.0, 0.0));
-		Assert.assertEquals("Points should be at the same location.", 0.0, p1.distance(qt1.getClosest(0.0, 0.0)), MatsimTestUtils.EPSILON);
+		Assertions.assertEquals(0.0, p1.distance(qt1.getClosest(0.0, 0.0)), MatsimTestUtils.EPSILON, "Points should be at the same location.");
 		/* Cell at (10,10) */
 		Point p2 = p.getFactory().createPoint(new Coordinate(10.0, 10.0));
-		Assert.assertEquals("Points should be at the same location.", 0.0, p2.distance(qt1.getClosest(10.0, 10.0)), MatsimTestUtils.EPSILON);
+		Assertions.assertEquals(0.0, p2.distance(qt1.getClosest(10.0, 10.0)), MatsimTestUtils.EPSILON, "Points should be at the same location.");
 	}
 
 	@Test
@@ -67,15 +68,15 @@ public class GeneralGridTest {
 		g1.generateGrid(p);
 		
 		QuadTree<Point> qt1 = g1.getGrid();
-		Assert.assertEquals("Wrong number of cells.", 168, qt1.size());
+		Assertions.assertEquals(168, qt1.size(), "Wrong number of cells.");
 		
 		/* Cell at (0,0) */
 		Point p1 = p.getFactory().createPoint(new Coordinate(0.0, 0.0));
-		Assert.assertEquals("Points should be at the same location.", 0.0, p1.distance(qt1.getClosest(0.0, 0.0)), MatsimTestUtils.EPSILON);
+		Assertions.assertEquals(0.0, p1.distance(qt1.getClosest(0.0, 0.0)), MatsimTestUtils.EPSILON, "Points should be at the same location.");
 		
 		/* Cell at (10,0) */
 		Point p2 = p.getFactory().createPoint(new Coordinate(7.5, ( Math.sqrt(3.0) / 2 ) * 5.0));
-		Assert.assertEquals("Points should be at the same location.", 0.0, p2.distance(qt1.getClosest(7.5, (Math.sqrt(3.0) / 2) * 5.0)), MatsimTestUtils.EPSILON);
+		Assertions.assertEquals(0.0, p2.distance(qt1.getClosest(7.5, (Math.sqrt(3.0) / 2) * 5.0)), MatsimTestUtils.EPSILON, "Points should be at the same location.");
 	}
 	
 	@Test
@@ -86,14 +87,14 @@ public class GeneralGridTest {
 		String filename = String.format("%s%s%s_%.0f.csv", utils.getOutputDirectory(), 
 				(utils.getOutputDirectory().endsWith("/") ? "" : "/"), GridType.SQUARE, 10.0, ".csv");
 		g1.writeGrid(filename, null);
-		Assert.assertTrue("File does not exist.", new File(utils.getOutputDirectory() + "/SQUARE_10.csv").exists());
+		Assertions.assertTrue(new File(utils.getOutputDirectory() + "/SQUARE_10.csv").exists(), "File does not exist.");
 
 		GeneralGrid g2 = new GeneralGrid(10.0, GridType.HEX);
 		g2.generateGrid(p);
 		filename = String.format("%s%s%s_%.0f.csv", utils.getOutputDirectory(), 
 				(utils.getOutputDirectory().endsWith("/") ? "" : "/"), GridType.HEX, 10.0, ".csv");
 		g2.writeGrid(filename, null);
-		Assert.assertTrue("File does not exist.", new File(utils.getOutputDirectory() + "/HEX_10.csv").exists());
+		Assertions.assertTrue(new File(utils.getOutputDirectory() + "/HEX_10.csv").exists(), "File does not exist.");
 	}
 	
 	@Test
@@ -111,7 +112,7 @@ public class GeneralGridTest {
 		Coordinate[] ca = {c1, c2, c3, c4, c1};
 		Polygon pTest = gf.createPolygon(ca);
 		Geometry g = g1.getCellGeometry(gf.createPoint(new Coordinate(0.0, 0.0)));
-		Assert.assertEquals("Wrong polygon object.", pTest, g);
+		Assertions.assertEquals(pTest, g, "Wrong polygon object.");
 	}
 	
 	@Test
@@ -135,7 +136,7 @@ public class GeneralGridTest {
 		Coordinate[] ca = {c1, c2, c3, c4, c5, c6, c1};
 		Polygon pTest = gf.createPolygon(ca);
 		Geometry g = g1.getCellGeometry(gf.createPoint(new Coordinate(0.0, 0.0)));
-		Assert.assertEquals("Wrong polygon object.", pTest, g);
+		Assertions.assertEquals(pTest, g, "Wrong polygon object.");
 	}
 	
 	

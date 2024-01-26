@@ -26,11 +26,10 @@ import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.config.ConfigWriter;
 import org.matsim.core.config.ConfigWriter.Verbosity;
-import org.matsim.core.config.groups.PlanCalcScoreConfigGroup.ActivityParams;
-import org.matsim.core.config.groups.PlanCalcScoreConfigGroup.TypicalDurationScoreComputation;
 import org.matsim.core.config.groups.QSimConfigGroup.LinkDynamics;
 import org.matsim.core.config.groups.QSimConfigGroup.VehiclesSource;
-import org.matsim.core.config.groups.StrategyConfigGroup.StrategySettings;
+import org.matsim.core.config.groups.ReplanningConfigGroup;
+import org.matsim.core.config.groups.ScoringConfigGroup;
 import org.matsim.core.controler.OutputDirectoryHierarchy.OverwriteFileSetting;
 import org.matsim.core.gbl.MatsimRandom;
 import org.matsim.core.network.io.MatsimNetworkReader;
@@ -212,52 +211,52 @@ class EquilBanScenario {
             Config config = sc.getConfig();
             config.global().setRandomSeed(this.seed);
 
-            config.controler().setFirstIteration(0);
-            config.controler().setLastIteration(numberOfIterations);
-            config.controler().setWriteEventsInterval(10);
-            config.controler().setWritePlansInterval(10);
+            config.controller().setFirstIteration(0);
+            config.controller().setLastIteration(numberOfIterations);
+            config.controller().setWriteEventsInterval(10);
+            config.controller().setWritePlansInterval(10);
 
             config.qsim().setLinkDynamics(LinkDynamics.PassingQ);
             config.qsim().setRemoveStuckVehicles(true);
             config.qsim().setStuckTime(Time.parseTime("01:00:00"));
 
-            config.controler().setOutputDirectory(String.format("%s/output_%s_%.2f_%04.0f/",
+            config.controller().setOutputDirectory(String.format("%s/output_%s_%.2f_%04.0f/",
                     dumpLocation,
                     this.stuck ? "stuck" : "fine",
                     this.probability,
                     this.fine));
-            config.controler().setOverwriteFileSetting(OverwriteFileSetting.deleteDirectoryIfExists);
+            config.controller().setOverwriteFileSetting(OverwriteFileSetting.deleteDirectoryIfExists);
             config.qsim().setEndTime(Time.parseTime("24:00:00"));
 
-            ActivityParams params_a = new ActivityParams("a");
+            ScoringConfigGroup.ActivityParams params_a = new ScoringConfigGroup.ActivityParams("a");
             params_a.setEarliestEndTime(Time.parseTime("05:00:00"));
             params_a.setTypicalDuration(Time.parseTime("18:00:00"));
-            params_a.setTypicalDurationScoreComputation(TypicalDurationScoreComputation.relative);
-            config.planCalcScore().addActivityParams(params_a);
+            params_a.setTypicalDurationScoreComputation(ScoringConfigGroup.TypicalDurationScoreComputation.relative);
+            config.scoring().addActivityParams(params_a);
 
-            ActivityParams params_b = new ActivityParams("b");
+            ScoringConfigGroup.ActivityParams params_b = new ScoringConfigGroup.ActivityParams("b");
             params_b.setOpeningTime(Time.parseTime("08:00:00"));
             params_b.setClosingTime(Time.parseTime("16:00:00"));
             params_b.setTypicalDuration(Time.parseTime("04:00:00"));
-            params_b.setTypicalDurationScoreComputation(TypicalDurationScoreComputation.relative);
-            config.planCalcScore().addActivityParams(params_b);
+            params_b.setTypicalDurationScoreComputation(ScoringConfigGroup.TypicalDurationScoreComputation.relative);
+            config.scoring().addActivityParams(params_b);
 
-            StrategySettings changeExpBeta = new StrategySettings();
+            ReplanningConfigGroup.StrategySettings changeExpBeta = new ReplanningConfigGroup.StrategySettings();
             changeExpBeta.setStrategyName(DefaultPlanStrategiesModule.DefaultSelector.ChangeExpBeta);
             changeExpBeta.setWeight(0.85);
-            config.strategy().addStrategySettings(changeExpBeta);
+            config.replanning().addStrategySettings(changeExpBeta);
 
-            StrategySettings timing = new StrategySettings();
+            ReplanningConfigGroup.StrategySettings timing = new ReplanningConfigGroup.StrategySettings();
             timing.setStrategyName(DefaultPlanStrategiesModule.DefaultStrategy.TimeAllocationMutator);
             timing.setWeight(0.10);
             timing.setDisableAfter((int) Math.round(0.9 * numberOfIterations));
-            config.strategy().addStrategySettings(timing);
+            config.replanning().addStrategySettings(timing);
 
-            StrategySettings reroute = new StrategySettings();
+            ReplanningConfigGroup.StrategySettings reroute = new ReplanningConfigGroup.StrategySettings();
             reroute.setStrategyName(STRATEGY_RANDOM_REROUTE);
             reroute.setWeight(0.10);
             reroute.setDisableAfter((int) Math.round(0.9 * numberOfIterations));
-            config.strategy().addStrategySettings(reroute);
+            config.replanning().addStrategySettings(reroute);
         }
 
 

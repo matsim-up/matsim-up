@@ -21,8 +21,8 @@
 package org.matsim.up.utils;
 
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.matsim.up.utils.SouthAfricaPopulationGrowth.StudyArea;
 
 public class SouthAfricaPopulationGrowthTest {
@@ -30,22 +30,22 @@ public class SouthAfricaPopulationGrowthTest {
 	@Test
 	public void testGetGrowthFactor() {
 		double f1 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2012);
-		Assert.assertEquals("Wrong factor", 1.00256, f1, 1e-5);
+		Assertions.assertEquals(1.00256, f1, 1e-5, "Wrong factor");
 
 		double f2 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2013);
-		Assert.assertEquals("Wrong factor", 1.00455, f2, 1e-5);
+		Assertions.assertEquals(1.00455, f2, 1e-5, "Wrong factor");
 		
 		double f3 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2014);
-		Assert.assertEquals("Wrong factor", 1.00585, f3, 1e-5);
+		Assertions.assertEquals(1.00585, f3, 1e-5, "Wrong factor");
 		
 		double f4 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2015);
-		Assert.assertEquals("Wrong factor", 1.00666, f4, 1e-5);
+		Assertions.assertEquals(1.00666, f4, 1e-5, "Wrong factor");
 		
 		double f5 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2016);
-		Assert.assertEquals("Wrong factor", 1.00730, f5, 1e-5);
+		Assertions.assertEquals(1.00730, f5, 1e-5, "Wrong factor");
 		
 		double f6 = SouthAfricaPopulationGrowth.getGrowthFactor(StudyArea.BuffaloCity, 2017);
-		Assert.assertEquals("Wrong factor", 1.00768, f6, 1e-5);
+		Assertions.assertEquals(1.00768, f6, 1e-5, "Wrong factor");
 	}
 
 }
